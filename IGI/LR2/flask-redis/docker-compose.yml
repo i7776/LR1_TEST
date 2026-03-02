@@ -7,7 +7,6 @@ services:
       - "8000:5000"
     environment:
       - REDIS_HOST=redis
-      - APP_COLOR=blue
     volumes:
       - .:/code
     networks:
