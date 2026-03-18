@@ -12,6 +12,7 @@ def sin_taylor(x, eps = 1e-4, max_iter = 500):
     :param max_iter: 500
     :return: result, iter_number
     """
+    x = x % (2 * math.pi)
     result = 0
     term = x
 
@@ -22,8 +23,8 @@ def sin_taylor(x, eps = 1e-4, max_iter = 500):
 
         #execute next component
         term *= (-1) * x * x /((2 * i + 2) * (2 * i +3))
-        return result, i + 1
 
+    return result, max_iter
 
 def math_sin(x):
     #execute sin

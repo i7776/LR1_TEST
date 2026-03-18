@@ -4,6 +4,14 @@ Service: Input handlers
 
 import random
 
+def get_float_input(value):
+    """Float input validation"""
+    while True:
+        try:
+            return float(input(value))
+        except ValueError:
+            print("Error: Please enter a valid floating-point number (e.g. 1.5 or 0.0001).")
+
 def get_int_input(value):
     """Integer input validation"""
     while True:
@@ -37,3 +45,15 @@ def generate_random_list(size):
         num = random.randint(-100, 100)
         lst.append(num)
     return lst
+
+def get_input_string(str_input):
+    while True:
+        user_input = input(str_input)
+
+        if len(user_input) > 0:
+            return user_input
+        else:
+            print("Error: Please enter text")
+
+
+
