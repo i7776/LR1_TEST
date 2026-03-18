@@ -67,16 +67,21 @@ def average_length(text):
 
 def seventh_words(text):
 
+    """
+    Finds every seventh word
+    :param text: words of the text
+    :return : list with every seventh word
+    """
     count = 0
-    seventh_words = []
+    seventh_word_lst = []
 
     for word in text:
         count += 1
         if count == 7:
             count = 0
-            seventh_words.append(word)
+            seventh_word_lst.append(word)
 
-    return seventh_words
+    return seventh_word_lst
 
 
 
