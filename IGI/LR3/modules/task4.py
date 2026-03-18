@@ -1,7 +1,8 @@
 """
 Task №4:
 a) Counts how many words end with a consonant letter
-b)
+b) Calculate average length and words with average length
+c) Finds every seventh word
 """
 
 """
