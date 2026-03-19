@@ -7,7 +7,7 @@ Date: 08.03.2026
 from modules.task1 import sin_taylor, math_sin
 from modules.task2 import process_task2
 from modules.task3 import count_punc
-from Services.output import print_result_task2, print_table_row, print_table_footer, print_table_header
+from Services.output import print_result_task2, print_table_row, print_table_footer, print_table_header, print_result_task4
 from Services.input import get_input_integers, get_int_input, get_natural_input, generate_random_list, get_float_input, get_input_string
 
 import modules
@@ -61,6 +61,11 @@ def run_task3():
 
     print(f"Total punctuation marks found:{count_punc(str1)}")
 
+def run_task4():
+
+    print("\n --- Task 4 ---")
+    print_result_task4()
+
 
 
 def main():
@@ -70,6 +75,7 @@ def main():
         print("1. Run Task 1 (Taylor sin)")
         print("2. Run Task 2 (Sequence analysis)")
         print("3. Run Task 3 (Text analysis)")
+        print("4. Run Task 4 (Text analysis)")
         print("0. Exit")
 
         cmd = get_int_input("\nSelected task:")
@@ -79,6 +85,8 @@ def main():
             run_task2()
         elif cmd == 3:
             run_task3()
+        elif cmd == 4:
+            run_task4()
         elif cmd == 0:
             break
 

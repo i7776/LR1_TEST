@@ -45,7 +45,9 @@ def average_length(text):
     :return :if count=0 returns zero, else returns average length and list of the words with average length
     """
 
-    count = 0
+    if len(text) == 0:
+        return 0, []
+
     total_length = 0
 
     # calculate total length of te words
@@ -53,7 +55,7 @@ def average_length(text):
        total_length += len(word)
 
     # calculate average length of the words
-    avg_length = round(total_length / count)
+    avg_length = round(total_length / len(text))
 
     # find words with average length
     avg_length_words = []
@@ -61,10 +63,7 @@ def average_length(text):
         if len(word) == avg_length:
             avg_length_words.append(word)
 
-    if count != 0:
-        return avg_length, avg_length_words
-    else:
-        return avg_length
+    return avg_length, avg_length_words
 
 def seventh_words(text):
 

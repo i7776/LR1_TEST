@@ -6,6 +6,8 @@ Service: Output handlers
 Output for Task1
 """
 
+from modules.task4 import correction_text, seventh_words, words_with_consonants_at_the_end,  average_length
+
 def print_table_header():
     """Prints table header"""
     print("\n" + "="*70)
@@ -29,5 +31,10 @@ def print_result_task2(summa, count):
     print(f" Sum of sequence: {summa}")
     print(f"Count of even natural numbers: {count}")
 
+def print_result_task4():
+    text = correction_text()
 
+    print(f"Words end with a consonant letter: {words_with_consonants_at_the_end(text)}")
+    print(f"Average length and words with average length: {average_length(text)}")
+    print(f"Every seventh word: {seventh_words(text)}")
 
