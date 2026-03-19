@@ -3,19 +3,20 @@ Laboratory Work №1
 Author: Masalova Lolita Dmitrievna
 Date: 08.03.2026
 """
+from itertools import product
 
 from modules.task1 import sin_taylor, math_sin
 from modules.task2 import process_task2
 from modules.task3 import count_punc
-from Services.output import print_result_task2, print_table_row, print_table_footer, print_table_header, print_result_task4
+from Services.output import print_result_task2, print_table_row, print_table_footer, print_table_header, print_result_task4, print_result_task5
 from Services.input import get_input_integers, get_int_input, get_natural_input, generate_random_list, get_float_input, get_input_string
 
 import modules
 
 def run_task2():
     print("\n--- Task 2 Menu ---")
-    print("\n1. Manual input")
-    print("\n2. Generate random sequence")
+    print("1. Manual input")
+    print("2. Generate random sequence")
 
     choice = get_natural_input("\nChoice:")
 
@@ -24,7 +25,7 @@ def run_task2():
 
     else:
         size = get_natural_input("\nEnter sequence size: " )
-        lst = generate_random_list(size)
+        lst = list(generate_random_list(size))
 
     print(f"Sequence: {lst}")
     total_sum, count = process_task2(lst)
@@ -66,6 +67,22 @@ def run_task4():
     print("\n --- Task 4 ---")
     print_result_task4()
 
+def run_task5():
+    print("\n--- Task 5 Menu ---")
+    print("1. Manual input")
+    print("2. Generate random sequence")
+
+    choice = get_natural_input("\nChoice:")
+
+    if choice == 1:
+        lst = get_input_integers()
+
+    else:
+        size = get_natural_input("\nEnter sequence size: " )
+        lst = list(generate_random_list(size))
+
+    print(f"Sequence: {lst}")
+    print_result_task5(lst)
 
 
 def main():
@@ -76,6 +93,7 @@ def main():
         print("2. Run Task 2 (Sequence analysis)")
         print("3. Run Task 3 (Text analysis)")
         print("4. Run Task 4 (Text analysis)")
+        print("5. Run Task 5 (Sequence analysis)")
         print("0. Exit")
 
         cmd = get_int_input("\nSelected task:")
@@ -87,8 +105,13 @@ def main():
             run_task3()
         elif cmd == 4:
             run_task4()
+        elif cmd == 5:
+            run_task5()
         elif cmd == 0:
             break
+        else:
+            print("Please, choose the number of the task(from 0 to 5)")
+
 
 if __name__ == "__main__":
     main()
