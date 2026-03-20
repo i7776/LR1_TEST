@@ -1,5 +1,9 @@
 """
+Main entry point for the program. Provides a menu
+to execute tasks 1 through 5 of the laboratory work.
+
 Laboratory Work №1
+Version: 1.0
 Author: Masalova Lolita Dmitrievna
 Date: 08.03.2026
 """
@@ -14,6 +18,10 @@ from Services.input import get_input_integers, get_int_input, get_natural_input,
 import modules
 
 def run_task2():
+
+    """
+    Executes Task 2
+    """
     print("\n--- Task 2 Menu ---")
     print("1. Manual input")
     print("2. Generate random sequence")
@@ -33,6 +41,10 @@ def run_task2():
     print_result_task2(total_sum, count)
 
 def run_task1():
+
+    """
+    Executes Task 1
+    """
     print("--- Task 1 ---")
 
     x = get_float_input("Enter value for x: ")
@@ -57,6 +69,9 @@ def run_task1():
 
 def run_task3():
 
+    """
+    Executes Task 3
+    """
     print("\n--- Task 3 ---")
     str1 = get_input_string("Input a text:")
 
@@ -64,10 +79,17 @@ def run_task3():
 
 def run_task4():
 
+    """
+    Executes Task 4
+    """
     print("\n --- Task 4 ---")
     print_result_task4()
 
 def run_task5():
+
+    """
+    Executes Task 5
+    """
     print("\n--- Task 5 Menu ---")
     print("1. Manual input")
     print("2. Generate random sequence")
@@ -86,7 +108,9 @@ def run_task5():
 
 
 def main():
-    """Main menu of the program"""
+    """
+    Main menu of the program
+    """
     while True:
         print("\n=== Laboratory Work №1 ===")
         print("1. Run Task 1 (Taylor sin)")

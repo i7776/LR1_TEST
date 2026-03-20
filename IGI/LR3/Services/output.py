@@ -2,44 +2,63 @@
 Service: Output handlers
 """
 
-"""
-Output for Task1
-"""
-
 from modules.task4 import correction_text, seventh_words, words_with_consonants_at_the_end,  average_length
 from modules.task5 import sum_of_positive, product_elements
 
+# Output for Task 1
 def print_table_header():
-    """Prints table header"""
+    """
+    Prints table header
+    """
     print("\n" + "="*70)
     print(f"| {'x':^10} | {'n':^6} | {'F(x)':^15} | {'Math F(x)':^15} | {'eps':^10} |")
     print("="*70)
 
 def print_table_row(x, n, f_x, math_f_x, eps):
-    """Prints one table row"""
+    """
+    Prints a single row of data in the Taylor series table.
+    :param x: input value
+    :param n: number of iterations
+    :param f_x: calculated Taylor value
+    :param math_f_x: math library value
+    :param eps: precision
+    """
     print(f"| {x:^10.4f} | {n:^6} | {f_x:^15.10f} | {math_f_x:^15.10f} | {eps:^10.2e} |")
 
 def print_table_footer():
     """Prints table footer"""
     print("="*70)
 
-"""
-Output for Task2
-"""
-
+# Output for Task 2
 def print_result_task2(summa, count):
+    """
+    Prints the calculated sum and count
+    :param summa: sum of the sequence
+    :param count: count of even natural numbers
+    """
     print(f"\nResult for Task 2")
     print(f"Sum of sequence: {summa}")
     print(f"Count of even natural numbers: {count}")
 
+# Output for Task 4
 def print_result_task4():
+
+    """
+    Processes text and prints results for task 4
+    """
     text = correction_text()
 
     print(f"Words end with a consonant letter: {words_with_consonants_at_the_end(text)}")
     print(f"Average length and words with average length: {average_length(text)}")
     print(f"Every seventh word: {seventh_words(text)}")
 
+# Output for Task 5
 def print_result_task5(lst):
+
+    """
+    Prints results sum of positive elements and product of elements
+    :param lst: list of integers
+    """
     print(f"Sum of positive elements: {sum_of_positive(lst)}")
 
     product_el = product_elements(lst)

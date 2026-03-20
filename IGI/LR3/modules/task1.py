@@ -1,10 +1,11 @@
 """
-Task №1: Series Expansion
+Task №1: Series expansion
 """
 
 import math
 
 def sin_taylor(x, eps = 1e-4, max_iter = 500):
+
     """
     Calculate sin(x)
     :param x: angle in radians

@@ -2,14 +2,15 @@
 Task №2: Sum of sequence and counting even natural numbers.
 """
 from Services.decorator import log_decorator
+
 def count_even_natural(arr):
+
+    """
+    Counts and returns the number of even natural numbers in the list.
+    :param arr: list of integers
+    :return: count of even natural numbers
+    """
     count = 0
-    """
-    Reads integers from the user until 0 is entered.
-    Counts and returns the number of even natural numbers.
-    :param arr: list
-    :return: count of even natural number 
-    """
     for elem in arr:
         if elem > 0 and elem % 2 == 0:
             count += 1

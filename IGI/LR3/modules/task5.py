@@ -1,6 +1,7 @@
 """
-Task №5:
-Find sum of positive elements and product elements, which are maximal and minimal by absolute value
+Task №5: Calculates the sum of positive elements
+and the product of elements located between the maximum and minimum
+elements by absolute value.
 """
 
 def sum_of_positive(lst):

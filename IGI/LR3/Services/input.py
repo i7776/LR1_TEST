@@ -5,7 +5,11 @@ Service: Input handlers
 import random
 
 def get_float_input(value):
-    """Float input validation"""
+    """
+    Float input validation
+    :param value: message to display
+    :return: validated float
+    """
     while True:
         try:
             return float(input(value))
@@ -13,7 +17,11 @@ def get_float_input(value):
             print("Error: Please enter a valid floating-point number.")
 
 def get_int_input(value):
-    """Integer input validation"""
+    """
+    Integer input validation
+    :param value: message to display
+    :return: validated integer
+    """
     while True:
         try:
             return int(input(value))
@@ -21,7 +29,11 @@ def get_int_input(value):
             print ("Error: Please enter a valid integer.")
 
 def get_natural_input(value):
-    """Natural integer input validation"""
+    """
+    Natural integer input validation
+    :param value:  message to display
+    :return: validated positive integer
+    """
     while True:
         num = get_int_input(value)
         if num > 0:
@@ -30,6 +42,10 @@ def get_natural_input(value):
             print("Error: Natural number must be greater than 0.")
 
 def get_input_integers():
+    """
+    List integer input validation
+    :return: list of validated integers
+    """
     lst = []
     n = get_natural_input("\nEnter size of array of integers:")
 
@@ -39,10 +55,22 @@ def get_input_integers():
     return lst
 
 def generate_random_list(size, start=-100, end=100):
+    """
+    Generation list of integers
+    :param size: number of elements
+    :param start: lower bound of the range
+    :param end: upper bound of the range
+    :return: list of random integers
+    """
     for _ in range(size):
         yield random.randint(start, end)
 
 def get_input_string(str_input):
+    """
+    String input validation
+    :param str_input: message to display
+    :return: validated non-empty string.
+    """
     while True:
         user_input = input(str_input)
 

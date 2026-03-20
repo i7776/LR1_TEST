@@ -9,6 +9,10 @@ c) Finds every seventh word
 Correction of the text
 """
 def correction_text():
+    """
+    Correction of the text: removes punctuation and splits into words
+    :return: list of words from the text
+    """
     text = "So she was considering in her own mind, as well as she could, for the hot day made her feel very sleepy and stupid, whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her."
 
     text = text.replace(',', ' ')
