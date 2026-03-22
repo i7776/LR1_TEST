@@ -47,12 +47,28 @@ def get_input_integers():
     :return: list of validated integers
     """
     lst = []
-    n = get_natural_input("\nEnter size of array of integers:")
+    n = get_natural_input("\nEnter size of array: ")
 
     for i in range(n):
-        num = get_int_input(f"Enter {i+1} number: ")
+        num = get_float_input(f"Enter {i+1} number: ")
         lst.append(num)
     return lst
+
+
+def get_integers_until_zero():
+    """
+    Reads integers from the user until 0 is entered
+    :return: list of validated integers
+    """
+    lst = []
+    print("\nEnter integers one by one. Enter 0 to finish:")
+    while True:
+        num = get_int_input("Enter number: ")
+        if num == 0:
+            break
+        lst.append(num)
+    return lst
+
 
 def generate_random_list(size, start=-100, end=100):
     """

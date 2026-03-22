@@ -11,7 +11,7 @@ def sum_of_positive(lst):
     :return: sum of positive elements
     """
 
-    total_sum = 0
+    total_sum = 0.0
 
     for elem in lst:
         if elem > 0:
@@ -52,7 +52,7 @@ def product_elements(lst):
     if end - start <= 1:
         return 0
 
-    product = 1
+    product = 1.0
     for i in range(start + 1, end):
         product *= lst[i]
 

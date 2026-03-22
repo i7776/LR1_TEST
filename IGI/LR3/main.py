@@ -3,6 +3,7 @@ Main entry point for the program. Provides a menu
 to execute tasks 1 through 5 of the laboratory work.
 
 Laboratory Work №1
+python 3.14
 Version: 1.0
 Author: Masalova Lolita Dmitrievna
 Date: 08.03.2026
@@ -13,32 +14,35 @@ from modules.task1 import sin_taylor, math_sin
 from modules.task2 import process_task2
 from modules.task3 import count_punc
 from Services.output import print_result_task2, print_table_row, print_table_footer, print_table_header, print_result_task4, print_result_task5
-from Services.input import get_input_integers, get_int_input, get_natural_input, generate_random_list, get_float_input, get_input_string
+from Services.input import get_input_integers, get_int_input, get_natural_input, generate_random_list, get_float_input, get_input_string, get_integers_until_zero
 
 import modules
 
 def run_task2():
-
     """
-    Executes Task 2
+    Executes Task 2 with the 'stop at 0' logic.
     """
     print("\n--- Task 2 Menu ---")
-    print("1. Manual input")
+    print("1. Manual input (stop by entering 0)")
     print("2. Generate random sequence")
 
-    choice = get_natural_input("\nChoice:")
+    choice = get_natural_input("\nChoice: ")
 
     if choice == 1:
-        lst = get_input_integers()
-
+        lst = get_integers_until_zero()
     else:
-        size = get_natural_input("\nEnter sequence size: " )
+        size = get_natural_input("\nEnter sequence size for random generation: ")
         lst = list(generate_random_list(size))
+
+    if not lst:
+        print("The sequence is empty.")
+        return
 
     print(f"Sequence: {lst}")
     total_sum, count = process_task2(lst)
 
     print_result_task2(total_sum, count)
+
 
 def run_task1():
 
