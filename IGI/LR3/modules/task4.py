@@ -29,14 +29,12 @@ def words_with_consonants_at_the_end(text):
     :param text: words of the text
     :return :count with consonants at the end
     """
-
     consonants = "bcdfghjklmnpqrstvwxz"
     count = 0
 
     for word in text:
-        if word[-1] in consonants:
+        if word.endswith(tuple(consonants)):
             count += 1
-
 
     return count
 
