@@ -1,8 +1,10 @@
 from task1 import RationalFraction
 from task1.file_handler import write_file, write_pickle, read_pickle
-from Services.input_output import get_natural_input, get_int_input
+from Services.input_output import get_natural_input, get_int_input, get_float_input, print_table_row, print_table_footer, print_table_header
 from task2.text_analizer import TextAnalyzer
 from task2.file_manager import save_analysis_result, create_archive
+from task3.task3 import TaylorSin, math_sin
+
 
 
 def run_task1():
@@ -82,11 +84,47 @@ def run_task2():
     save_analysis_result(results)
     create_archive("analysis_result.txt")
 
+
+def run_task3():
+    """
+    Executes Task 3
+    """
+    print("\n--- Task 3 ---")
+
+    x = get_float_input("Enter value for x: ")
+    eps_choice = input("Enter precision eps (press Enter to use default 0.0001): ")
+    if eps_choice.strip() == "":
+        eps = 0.0001
+    else:
+        try:
+            eps = float(eps_choice)
+        except ValueError:
+            print("Invalid input for eps. Using default 0.0001")
+            eps = 0.0001
+
+    calculator = TaylorSin(x, eps)
+    taylor_result, n_iterations = calculator.calculate()
+    math_result = math_sin(x)
+
+    print_table_header()
+    print_table_row(x, n_iterations, taylor_result, math_result, eps)
+    print_table_footer()
+
+    stats = calculator.get_statistics()
+    print("\n--- Sequence Statistics ---")
+    print(f"Mean (Среднее):   {stats['mean']:.6f}")
+    print(f"Median (Медиана): {stats['median']:.6f}")
+    print(f"Mode (Мода):      {stats['mode']}")
+    print(f"Variance (Дисп.): {stats['variance']:.6f}")
+    print(f"Std Dev (СКО):    {stats['stdev']:.6f}")
+
+    calculator.plot_graph()
+
 def main():
     while True:
         print("\n=== Laboratory Work №4 ===")
         print("1. Run Task 1 (Rational Fractions)")
-        print("2. Run Task 2 (Regex Text Analysis)")
+        print("2. Run Task 2 (Text Analysis)")
         print("3. Run Task 3 (Math/Matplotlib)")
         print("4. Run Task 4 (Geometry Classes)")
         print("5. Run Task 5 (NumPy Statistics)")
@@ -99,10 +137,8 @@ def main():
             run_task1()
         elif cmd == 2:
             run_task2()
-            pass
         elif cmd == 3:
-            #run_task3()
-            pass
+            run_task3()
         elif cmd == 4:
             #run_task4()
             pass
