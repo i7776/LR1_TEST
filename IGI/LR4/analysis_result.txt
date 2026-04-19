@@ -1,0 +1,10 @@
+--- Text Analysis Report ---
+Total sentences: 0
+Declarative: 0
+Interrogative: 0
+Exclamatory: 0
+Phone numbers: 
+Average word length: 2
+Слов длиной 2 символов в строке нет
+Every seventh word: bbbbbbb
+Smiley count: 0

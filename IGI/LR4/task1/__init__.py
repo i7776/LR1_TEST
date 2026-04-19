@@ -11,6 +11,10 @@ class RationalFraction(JsonSerializeMixit):
         if denominator == 0:
             raise ValueError("Denominator cannot be zero!")
 
+        if denominator < 0:
+            numerator = -numerator
+            denominator = -denominator
+
         self.__numerator = numerator
         self.__denominator = denominator
 

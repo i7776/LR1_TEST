@@ -1,0 +1,7 @@
+Hello! Do you have a phone? Yes, call 291234567. 
+Block study plane words are great. 
+Look at these numbers: 297654321, 290000000. 
+Every seventh word in this very long text should be extracted by the program. 
+The analysis is very interesting! 
+Do you like Python? I love it:---------[[[[[[[[. 
+Also, let's count words ending in a consonant: cat, dog, bird, apple, grape.
