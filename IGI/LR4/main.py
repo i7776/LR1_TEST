@@ -4,7 +4,7 @@ from Services.input_output import get_natural_input, get_int_input, get_float_in
 from task2.text_analizer import TextAnalyzer
 from task2.file_manager import save_analysis_result, create_archive
 from task3.task3 import TaylorSin, math_sin
-
+from task4.geometry import InscribedSquare
 
 
 def run_task1():
@@ -120,6 +120,25 @@ def run_task3():
 
     calculator.plot_graph()
 
+def run_task4():
+    print("\n--- Task 4 ---")
+
+    try:
+        radius = get_float_input("Enter floating number:")
+
+        color = input("Enter the color of the square (e.g., red, blue, green): ")
+        text_label = input("Enter text label for the center of the figure: ")
+    except ValueError:
+        print("Error: Radius must be a valid number!")
+        return
+
+    my_square = InscribedSquare(radius, color)
+
+    print("\nObject created successfully:")
+    print(my_square)
+
+    my_square.draw(text_label)
+
 def main():
     while True:
         print("\n=== Laboratory Work №4 ===")
@@ -140,8 +159,7 @@ def main():
         elif cmd == 3:
             run_task3()
         elif cmd == 4:
-            #run_task4()
-            pass
+            run_task4()
         elif cmd == 5:
             #run_task5()
             pass
