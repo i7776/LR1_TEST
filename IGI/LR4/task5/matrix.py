@@ -2,7 +2,7 @@ import numpy as np
 
 class MatrixLogMixin:
     def log(self, message):
-        print(f"[Matrix Log]: {message}")
+        print(f"[Matrix LOG]: {message}")
 
 class BaseMatrix:
     def __init__(self, n, m):
@@ -31,10 +31,16 @@ class MatrixAnalyzer(BaseMatrix, MatrixLogMixin):
         self.log("Swapping complete")
 
     def calculate_median_numpy(self):
+        """
+        Calculates the median of the matrix's main diagonal using NumPy
+        """
         diag = np.diagonal(self.matrix)
         return np.median(diag)
 
     def calculate_median(self):
+        """
+        Calculates the median of the matrix's main diagonal manually
+        """
         diag = np.diagonal(self.matrix)
         sorted_diag = np.sort(diag)
         n = len(sorted_diag)
@@ -48,7 +54,7 @@ class MatrixAnalyzer(BaseMatrix, MatrixLogMixin):
 
     def display_numpy_features(self):
         """
-        Demonstrates required NumPy features from the assignment (parts a and b).
+        Demonstrates required NumPy features from the assignment
         """
         self.log("Demonstrating additional NumPy features...")
 
@@ -56,11 +62,11 @@ class MatrixAnalyzer(BaseMatrix, MatrixLogMixin):
         ones_arr = np.ones((2, 2))
         eye_arr = np.eye(2) # Единичная матрица
 
-        # Индексирование и срезы (Slicing)
+        # Индексирование и срезы
         # Возьмем первую строку и первые два столбца
         sub_matrix = self.matrix[:1, :2]
 
-        # 3. Математические и статистические операции (mean, var, std, corrcoef)
+        # Математические и статистические операции (mean, var, std, corrcoef)
         # Считаем по всей матрице
         mean_val = np.mean(self.matrix) #chtlytt
         variance_val = np.var(self.matrix)

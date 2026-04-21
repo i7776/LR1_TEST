@@ -1,7 +1,9 @@
 import re
 
 class JsonSerializeMixit:
-
+    """
+    Converts object attributes into a dictionary
+    """
     def to_dict(self):
         data = {}
         for key, value in vars(self).items():

@@ -63,7 +63,7 @@ class InscribedSquare(GeometricFigure):
     def get_area(self):
         """
         Calculates the area of the inscribed square
-        :return: Area of the square.\
+        :return: Area of the square
         """
         return 2 * self._radius * self._radius
 
@@ -82,14 +82,14 @@ class InscribedSquare(GeometricFigure):
     def get_name(cls):
         """
         Class method to get the name of the geometric figure
-        :return: Name of the figure.
+        :return: Name of the figure
         """
         return cls.figure_name
 
     def draw(self, label):
         """
         Draws
-        :param label: Text label to display in the center of the figure.\
+        :param label: Text label to display in the center of the figure
         """
         print(f"\n[Drawing figure: {self.get_name()}...]")
         fig, ax = plt.subplots(figsize=(6, 6))

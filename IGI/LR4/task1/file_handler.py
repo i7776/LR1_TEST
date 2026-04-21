@@ -3,6 +3,9 @@ import csv
 import pickle
 
 def write_file(lst):
+    """
+    Serializes a list of objects and saves them to a CSV file
+    """
     try:
         data = []
         for obj in lst:
@@ -20,10 +23,16 @@ def write_file(lst):
         print(f'Error: {e}')
 
 def write_pickle(lst, filename='file.pkl'):
+    """
+    Serializes a list of objects into a binary format using pickle
+    """
     with open(filename, 'wb') as f:
         pickle.dump(lst, f)
 
 def read_pickle(filename='file.pkl'):
+    """
+    Deserializes and returns data from a binary pickle file
+    """
     with open(filename, 'rb') as f:
         data = pickle.load(f)
     return data

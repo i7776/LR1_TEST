@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 import numpy
 
 class LoggerMixin:
+    """
+    Prints a log message with the class name
+    """
     def log_action(self, action):
         print(f"[LOG {self.__class__.__name__}] : {action}")
 
@@ -102,7 +105,6 @@ class TaylorSin(BaseSeriesCalculator, LoggerMixin):
     def plot_graph(self):
         """
         Draw graph
-        :return:
         """
         # from -10 to 10 с step 0.1
         x_values = [x / 10.0 for x in range(-100, 101)]
@@ -143,5 +145,7 @@ class TaylorSin(BaseSeriesCalculator, LoggerMixin):
         plt.show()
 
 def math_sin(x):
-    # execute sin
+    """
+    Execute sin(x) using the standard math library
+    """
     return math.sin(x)

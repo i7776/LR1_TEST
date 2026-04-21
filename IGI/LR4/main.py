@@ -1,3 +1,11 @@
+"""
+Laboratory Work №4
+Working with files, classes, serializers, regular expressions, and standard libraries.
+Version: 1.0
+Author: Masalova Lolita Dmitrievna
+Date: 07.04.2026
+"""
+
 from task1 import RationalFraction
 from task1.file_handler import write_file, write_pickle, read_pickle
 from Services.input_output import get_natural_input, get_int_input, get_float_input, print_table_row, print_table_footer, print_table_header
@@ -6,10 +14,11 @@ from task2.file_manager import save_analysis_result, create_archive
 from task3.task3 import TaylorSin, math_sin
 from task4.geometry import InscribedSquare
 from task5.matrix import MatrixAnalyzer
+from task6.pandas_wine import WineAnalyzer
 
 def run_task1():
     """
-    Executes Task 1 (Rational Fractions, Variant 15)
+    Executes Task 1
     """
     print("\n--- Task 1: Rational Fractions ---")
     fractions_list = []
@@ -63,6 +72,10 @@ def run_task1():
 
 
 def run_task2():
+    """
+    Executes Task 2: Reads text from a file, analyzes it, saves the report, and creates a ZIP archive
+    """
+    print("\n--- Task 2 ---")
     with open('source.txt', 'r', encoding='utf-8') as f:
         text = f.read()
 
@@ -123,6 +136,9 @@ def run_task3():
 
 
 def run_task4():
+    """
+    Executes Task 4: Creates a geometric figure (square inscribed in a circle), calculates its area, and draws it using Matplotlib
+    """
     print("\n--- Task 4 ---")
 
     try:
@@ -142,6 +158,9 @@ def run_task4():
     my_square.draw(text_label)
 
 def run_task5():
+    """
+    Executes Task 5: Generates a random matrix, performs row swapping, calculates median, and demonstrates NumPy features
+    """
     print("\n--- Task 5 ---")
 
     try:
@@ -170,7 +189,24 @@ def run_task5():
     except ValueError:
         print("Error: Please enter valid integers for dimensions.")
 
+def run_task6():
+    """
+    Executes Task 6: Analyzes wine quality dataset using Pandas. Demonstrates Series indexing and operations
+    """
+    print("\n--- Task 6 ---")
+    try:
+        analyzer = WineAnalyzer('winequality-red.csv')
+
+        print(analyzer)
+        analyzer.run_analysis()
+
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+
 def main():
+    """
+    Displays an interactive menu to navigate through the laboratory tasks
+    """
     while True:
         print("\n=== Laboratory Work №4 ===")
         print("1. Run Task 1 (Rational Fractions)")
@@ -194,7 +230,7 @@ def main():
         elif cmd == 5:
             run_task5()
         elif cmd == 6:
-            #run_task6()
+            run_task6()
             pass
         elif cmd == 0:
             print("Exiting...")

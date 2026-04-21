@@ -1,10 +1,10 @@
 --- Text Analysis Report ---
-Total sentences: 0
-Declarative: 0
-Interrogative: 0
-Exclamatory: 0
-Phone numbers: 
-Average word length: 2
-Слов длиной 2 символов в строке нет
-Every seventh word: bbbbbbb
-Smiley count: 0
+Total sentences: 10
+Declarative: 6
+Interrogative: 2
+Exclamatory: 2
+Phone numbers: 291234567, 297654321, 290000000
+Average word length: 4
+Words with avg length: have, call, Look, word, this, very, long, text, very, like, love, Also, bird
+Every seventh word: Yes, are, 290000000, long, program, you, let, consonant
+Smiley count: 1
