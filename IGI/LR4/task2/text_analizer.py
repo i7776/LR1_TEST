@@ -1,3 +1,10 @@
+"""
+Module for Task 2.
+Provides a TextAnalyzer class that uses regular expressions for text processing.
+Includes functions for counting sentence types, extracting phone numbers,
+calculating average word lengths, and archiving results into a ZIP file.
+"""
+
 import re
 
 class TextAnalyzer:

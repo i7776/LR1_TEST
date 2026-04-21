@@ -1,3 +1,10 @@
+"""
+Module for Task 4.
+Implements a geometric modeling system using abstract base classes.
+Features the InscribedSquare class, which calculates area and uses
+Matplotlib for visual rendering of shapes with custom labeling.
+"""
+
 from abc import ABC, abstractmethod
 import math
 import matplotlib.pyplot as plt

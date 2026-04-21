@@ -1,3 +1,9 @@
+"""
+Module for Task 3.
+Implements the calculation of the Taylor series for sin(x),
+statistical analysis of the series elements using NumPy,
+and visualization of the results using Matplotlib.
+"""
 import math
 import matplotlib.pyplot as plt
 import numpy
@@ -10,32 +16,44 @@ class LoggerMixin:
         print(f"[LOG {self.__class__.__name__}] : {action}")
 
 class BaseSeriesCalculator:
+    """
+   Abstract base class for series calculators
+   """
     def __init__(self, x, eps):
         self.raw_x = x
         self._eps = eps
 
     @property
     def eps(self):
+        """
+        Getter for the epsilon property
+        """
         return self._eps
 
     @eps.setter
     def eps(self,val):
+        """
+        Setter for the epsilon property
+        """
         if val <= 0:
             raise ValueError("Epsilon must not be less or equal than zero")
         self._eps = val
 
     def calculate(self):
+        """
+        Abstract method to calculate the series
+        """
         raise NotImplementedError("Method calculate must be in dauther class")
 
 
 class TaylorSin(BaseSeriesCalculator, LoggerMixin):
-    """Class to calculate and analyze Taylor series for sin(x)"""
+    """
+    Class to calculate and analyze Taylor series for sin(x)
+    """
 
     def __init__(self, x, eps=1e-4, max_iter=500):
-        self.raw_x = x
-        self.eps = eps
+        super().__init__(x, eps)
         self.max_iter = max_iter
-
         self.terms = []
         self.result = 0
         self.n_iterations = 0
@@ -78,6 +96,9 @@ class TaylorSin(BaseSeriesCalculator, LoggerMixin):
         return self.result, self.n_iterations
 
     def get_statistics(self):
+        """
+        Calculates statistical parameters of the generated series terms using NumPy
+        """
         if not self.terms:
             return None
 

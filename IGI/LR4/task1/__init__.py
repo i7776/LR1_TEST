@@ -1,13 +1,19 @@
 """
-Task 1: Rational Fraction class.
+Module for Task 1.
+Implements the RationalFraction class to handle mathematical fractions,
+demonstrating serialization to CSV and Pickle formats.
 """
 
 from .models import JsonSerializeMixit
 class RationalFraction(JsonSerializeMixit):
-    """Class representing a rational fraction"""
+    """
+    Class representing a rational fraction
+    """
 
     def __init__(self, numerator, denominator) :
-        """Initialization fraction"""
+        """
+        Initialization fraction
+        """
         if denominator == 0:
             raise ValueError("Denominator cannot be zero!")
 
@@ -20,27 +26,37 @@ class RationalFraction(JsonSerializeMixit):
 
     @property
     def numerator(self):
-        """Get numerator"""
+        """
+        Get numerator
+        """
         return self.__numerator
 
     @property
     def denominator(self):
-        """Get denominator"""
+        """
+        Get denominator
+        """
         return self.__denominator
 
     def __eq__(self, other):
-        """Check if two fractions are equal """
+        """
+        Check if two fractions are equal
+        """
         if not isinstance(other, RationalFraction):
             return False
 
         return self.numerator * other.denominator == self.denominator * other.numerator
 
     def __lt__(self, other):
-        """Check if self < other"""
+        """
+        Check if self < other
+        """
         return  self.numerator * other.denominator < self.denominator * other.numerator
 
     def __str__(self):
-        """Return string representation like a/b"""
+        """
+        Return string representation like a/b
+        """
         return f"{self.numerator}/{self.denominator}"
 
 

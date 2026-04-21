@@ -1,3 +1,9 @@
+"""
+Module for Task 6.
+Focuses on data science operations using the Pandas library.
+Implements WineAnalyzer to process the Wine Quality dataset,
+performing Series manipulation, custom indexing, and statistical filtering.
+"""
 import pandas as pd
 
 class PandasLoggerMixin:
@@ -5,29 +11,49 @@ class PandasLoggerMixin:
     Mixin for logging Pandas operations
     """
     def log_info(self, msg):
+        """
+        Prints a log message with a specialized prefix.
+        :param msg: String message to display.
+        """
         print(f"[Pandas LOG]: {msg}")
 
 class BaseDataAnalyzer(PandasLoggerMixin):
+    """
+    Abstract base class for data analysis.
+    """
     # cтатический атрибут
     datasets_loaded = 0
 
     def __init__(self, filepath):
-        self._filepath = filepath  # Скрытый атрибут
+        """
+        Initializes the base analyzer
+        :param filepath: String path to the data file
+        """
+        self._filepath = filepath  # cкрытый атрибут
         BaseDataAnalyzer.datasets_loaded += 1
-        self.status = "Initialized" # Динамический атрибут
+        self.status = "Initialized" # динамический атрибут
 
 
     @property
     def filepath(self):
+        """
+        Getter for the file path property
+        """
         return self._filepath
 
     @filepath.setter
     def filepath(self, value):
+        """
+        Setter for the file path. Validates that input is a string
+        """
         if not isinstance(value, str):
             raise ValueError("Filepath must be a string")
         self._filepath = value
 
     def run_analysis(self):
+        """
+        Abstract method for running analysis logic
+        """
         raise NotImplementedError("This method must be overridden in child class")
 
 class WineAnalyzer(BaseDataAnalyzer):
@@ -35,6 +61,11 @@ class WineAnalyzer(BaseDataAnalyzer):
     Class for analyzing wine quality data using Pandas
     """
     def __init__(self, filepath = 'winequality-red.csv'):
+        """
+        Initializes the WineAnalyzer and loads the dataset
+        :param filepath: Path to the CSV file
+        :raises FileNotFoundError: If the CSV file is missing
+        """
         super().__init__(filepath)
         self.log_info("Dataset successfully loaded!")
         try:
@@ -43,6 +74,9 @@ class WineAnalyzer(BaseDataAnalyzer):
             raise FileNotFoundError(f"File {filepath} not found! Please put it in the project folder.")
 
     def __str__(self):
+        """
+        Returns a string representation of the analyzer status
+        """
         return f"Analyzer for dataset: {self.filepath} (Rows: {len(self.df)})"
 
     def run_analysis(self):
@@ -51,7 +85,9 @@ class WineAnalyzer(BaseDataAnalyzer):
         self.run_task_b()
 
     def show_general_info(self):
-        """ПОЛУЧЕНИЕ ИНФОРМАЦИИ О ДАТАФРЕЙМЕ"""
+        """
+        Displays structural information about the DataFrame and basic descriptive statistics
+        """
         print("\n--- General DataFrame Info ---")
         print(self.df.info()) # Информация по каждому параметру (типы данных)
         print("\n--- Descriptive Statistics ---")

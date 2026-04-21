@@ -1,3 +1,9 @@
+"""
+Module for Task 5.
+Contains MatrixAnalyzer for advanced matrix operations using NumPy.
+Handles random matrix generation, row swapping logic, and comparative
+median calculations to demonstrate library efficiency.
+"""
 import numpy as np
 
 class MatrixLogMixin:
@@ -17,7 +23,8 @@ class MatrixAnalyzer(BaseMatrix, MatrixLogMixin):
         super().__init__(n, m)
 
     def __str__(self):
-        return (f"Matrix {self.matrix.shape[0]}x{self.matrix.shape[1]}:\n{self.matrix}")
+        rows, cols = self.matrix.shape  # Распаковываем размеры (например, 5, 5)
+        return f"Matrix size {rows} by {cols}:\n{self.matrix}"
 
     def swap_max_with_diagonal(self):
         self.log("Starting row swap process...")
