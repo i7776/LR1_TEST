@@ -5,7 +5,7 @@ from task2.text_analizer import TextAnalyzer
 from task2.file_manager import save_analysis_result, create_archive
 from task3.task3 import TaylorSin, math_sin
 from task4.geometry import InscribedSquare
-
+from task5.matrix import MatrixAnalyzer
 
 def run_task1():
     """
@@ -120,6 +120,8 @@ def run_task3():
 
     calculator.plot_graph()
 
+
+
 def run_task4():
     print("\n--- Task 4 ---")
 
@@ -138,6 +140,35 @@ def run_task4():
     print(my_square)
 
     my_square.draw(text_label)
+
+def run_task5():
+    print("\n--- Task 5 ---")
+
+    try:
+        n = get_natural_input("Enter number of rows (N): ")
+        m = get_natural_input("Enter number of columns (M): ")
+
+        analyzer = MatrixAnalyzer(n, m)
+        print("\nOriginal Matrix:")
+        print(analyzer)
+
+        analyzer.swap_max_with_diagonal()
+        print("\nMatrix after swapping max elements with diagonal:")
+        print(analyzer)
+
+        analyzer.display_numpy_features()
+
+        med_np = analyzer.calculate_median_numpy()
+        med_man = analyzer.calculate_median()
+
+        print(f"\nDiagonal Median (NumPy): {med_np}")
+        print(f"Diagonal Median (Manual): {med_man}")
+
+        if med_np == med_man:
+            print("Success: Both methods returned the same result!")
+
+    except ValueError:
+        print("Error: Please enter valid integers for dimensions.")
 
 def main():
     while True:
@@ -161,8 +192,7 @@ def main():
         elif cmd == 4:
             run_task4()
         elif cmd == 5:
-            #run_task5()
-            pass
+            run_task5()
         elif cmd == 6:
             #run_task6()
             pass
