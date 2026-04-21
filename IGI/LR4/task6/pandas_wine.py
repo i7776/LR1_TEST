@@ -12,8 +12,8 @@ class PandasLoggerMixin:
     """
     def log_info(self, msg):
         """
-        Prints a log message with a specialized prefix.
-        :param msg: String message to display.
+        Prints a log message with a specialized prefix
+        :param msg: String message to display
         """
         print(f"[Pandas LOG]: {msg}")
 
@@ -89,9 +89,9 @@ class WineAnalyzer(BaseDataAnalyzer):
         Displays structural information about the DataFrame and basic descriptive statistics
         """
         print("\n--- General DataFrame Info ---")
-        print(self.df.info()) # Информация по каждому параметру (типы данных)
+        print(self.df.info()) # информация по каждому параметру (типы данных)
         print("\n--- Descriptive Statistics ---")
-        print(self.df.describe()) # Статистика (среднее, мин, макс и тд)
+        print(self.df.describe()) # статистика (среднее, мин, макс и тд)
 
     def run_task_a(self):
         """
@@ -104,8 +104,8 @@ class WineAnalyzer(BaseDataAnalyzer):
         quality_series.index = new_index
         alcohol_series.index = new_index
 
-        print(f"Демонстрация .iloc (5-й элемент): {quality_series.iloc[4]}")
-        print(f"Демонстрация .loc (элемент 'wine_0'): {quality_series.loc['wine_0']}")
+        print(f"Demonstration iloc (5-th element): {quality_series.iloc[4]}")
+        print(f"Demonstration .loc (element 'wine_0'): {quality_series.loc['wine_0']}")
 
         new_dataframe = pd.DataFrame({
             'Quality': quality_series,
