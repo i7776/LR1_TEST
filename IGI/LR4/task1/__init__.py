@@ -4,8 +4,8 @@ Implements the RationalFraction class to handle mathematical fractions,
 demonstrating serialization to CSV and Pickle formats.
 """
 
-from .models import JsonSerializeMixit
-class RationalFraction(JsonSerializeMixit):
+from .models import SerializeMixit
+class RationalFraction(SerializeMixit):
     """
     Class representing a rational fraction
     """

@@ -1,6 +1,6 @@
 import re
 
-class JsonSerializeMixit:
+class SerializeMixit:
     """
     Converts object attributes into a dictionary
     """
