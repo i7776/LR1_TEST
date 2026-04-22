@@ -124,11 +124,19 @@ class WineAnalyzer(BaseDataAnalyzer):
         """
         max_q = self.df['quality'].max()
         best_wines = self.df[self.df['quality'] == max_q]
-        avg_alc = best_wines['alcohol'].mean()
+        avg_alc_best = best_wines['alcohol'].mean()
 
-        result = round(avg_alc, 2)
-        print(f"Average alcohol concentration in best wines: {result}")
-        return result
+        result_best = round(avg_alc_best, 2)
+        print(f"Average alcohol concentration in best wines: {result_best}")
+
+
+        min_q = self.df['quality'].min()
+        worst_wines = self.df[self.df['quality'] == min_q]
+        avg_alc_worst = worst_wines['alcohol'].mean()
+
+        ratio = avg_alc_best / avg_alc_worst
+        print(f"Average alcohol in best wines is {round(ratio, 2)} times higher than in worst wines.")
+        return result_best
 
 
 

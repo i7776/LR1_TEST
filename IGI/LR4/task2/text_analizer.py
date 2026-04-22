@@ -66,7 +66,7 @@ class TextAnalyzer:
 
     def smile(self):
         """Counts the number of smiles"""
-        smiles = re.findall(r'[;:]-*[\(\)\[\]]+', self.text)
+        smiles = re.findall(r'(?<![;:])[;:]-*(?:\(+|\)+|\[+|\]+)(?![()\[\]])', self.text)
         return len(smiles)
 
     def analyze_sentences(self):

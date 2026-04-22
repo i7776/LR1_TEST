@@ -27,6 +27,7 @@ def create_archive(result_file, archive_name="result.zip"):
     with zipfile.ZipFile(archive_name, 'w') as zipf:
         zipf.write(result_file)
 
+
     # Information about the file in the archive
     with zipfile.ZipFile(archive_name, 'r') as zipf:
         print(f"\nArchive created: {archive_name}")

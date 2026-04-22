@@ -5,3 +5,4 @@ Every seventh word in this very long text should be extracted by the program.
 The analysis is very interesting! 
 Do you like Python? I love it:---------[[[[[[[[. 
 Also, let's count words ending in a consonant: cat, dog, bird, apple, grape.
+;;-))
