@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Кинотеатр</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .movie-card { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        .rating { color: #e67e22; font-weight: bold; }
+    </style>
+</head>
+<body>
+<h1>🎬 Сейчас в прокате</h1>
+
+<div style="background: #fff; padding: 10px; margin-bottom: 20px; border-radius: 8px;">
+    <p>📊 <strong>Статистика кинотеатра:</strong></p>
+    <ul>
+        <li>Всего фильмов: {{ stats.total_count }}</li>
+        <li>Средний рейтинг: {{ stats.average_rating|floatformat:1 }} ⭐</li>
+    </ul>
+</div>
+
+{% for movie in movies %}
+<div class="movie-card">
+    <h2>{{ movie.title }}</h2>
+    <p><strong>Год:</strong> {{ movie.data }} | <strong>Страна:</strong> {{ movie.country }}</p>
+    <p><strong>Жанр:</strong> {{ movie.genre.name }}</p>
+    <p class="rating">⭐ Рейтинг: {{ movie.rating }}</p>
+    <p>{{ movie.description|truncatewords:30 }}</p>
+</div>
+{% empty %}
+<p>Фильмов пока нет.</p>
+{% endfor %}
+</body>
+</html>
