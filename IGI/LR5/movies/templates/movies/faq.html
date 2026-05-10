@@ -1,0 +1,17 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}FAQ - CinemaLab{% endblock %}
+
+{% block content %}
+<h1>❓ Часто задаваемые вопросы</h1>
+
+{% for item in faqs %}
+<div class="movie-card">
+  <h3 style="color: #e67e22;">Q: {{ item.question }}</h3>
+  <p><strong>A:</strong> {{ item.answer }}</p>
+  <p style="text-align: right;"><small>Добавлено: {{ item.added_date|date:"d.m.Y" }}</small></p>
+</div>
+{% empty %}
+<p>Раздел в разработке. Скоро мы ответим на все ваши вопросы!</p>
+{% endfor %}
+{% endblock %}

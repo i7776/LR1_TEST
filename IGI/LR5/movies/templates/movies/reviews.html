@@ -1,0 +1,45 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Отзывы - CinemaLab{% endblock %}
+
+{% block content %}
+<h1>💬 Отзывы наших зрителей</h1>
+
+<!-- Блок с формой добавления -->
+<div class="movie-card" style="background: #fffaf0; border: 1px dashed #e67e22;">
+  <h3>Оставить свой отзыв</h3>
+  <form method="post">
+    {% csrf_token %}
+
+    <p>Ваше имя:</p>
+    {{ form.name }}
+
+    <p>Ваша оценка (1-5):</p>
+    {{ form.rating }}
+
+    <p>Ваш отзыв:</p>
+    {{ form.text }}
+
+    <br>
+    <button type="submit" style="background: #e67e22; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+      Отправить отзыв
+    </button>
+  </form>
+</div>
+
+<hr>
+
+<!-- Список существующих отзывов -->
+{% for review in reviews %}
+<div class="movie-card">
+  <div style="display: flex; justify-content: space-between;">
+    <strong>{{ review.name }}</strong>
+    <span style="color: #e67e22;">Оценка: {{ review.rating }}/5 ⭐</span>
+  </div>
+  <p style="margin-top: 10px;">{{ review.text|linebreaks }}</p>
+  <p style="text-align: right;"><small style="color: #999;">{{ review.created_date|date:"d.m.Y H:i" }}</small></p>
+</div>
+{% empty %}
+<p>Отзывов пока нет. Будьте первым!</p>
+{% endfor %}
+{% endblock %}

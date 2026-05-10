@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Кинотеатр{% endblock %}</title>
+  <style>
+    /* стиль */
+    body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+    .container { max-width: 900px; margin: 0 auto; }
+
+    /* стили для меню */
+    nav { background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    nav a { margin-right: 15px; text-decoration: none; color: #333; font-weight: bold; }
+    nav a:hover { color: #e67e22; }
+
+    /*  карточки */
+    .movie-card, .info-card { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    h1 { color: #333; }
+    .rating { color: #e67e22; font-weight: bold; }
+
+    footer { margin-top: 30px; text-align: center; font-size: 0.9em; color: #666; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <nav>
+    <a href="/">🎬 Главная</a>
+    <a href="/about/">О компании</a>
+    <a href="/news/">Новости</a>
+    <a href="/faq/">FAQ</a>
+    <a href="/contacts/">Контакты</a>
+    <a href="/vacancies/">Вакансии</a>
+    <a href="/reviews/">Отзывы</a>
+    <a href="/promos/">Промокоды</a>
+  </nav>
+
+  {% block content %}
+  <!-- содержимое каждой страницы -->
+  {% endblock %}
+
+  <footer>
+    <p>© 2026 CinemaLab | <a href="/privacy/">Политика конфиденциальности</a></p>
+  </footer>
+</div>
+</body>
+</html>

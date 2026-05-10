@@ -1,0 +1,37 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Контакты - CinemaLab{% endblock %}
+
+{% block content %}
+<h1>📞 Наши сотрудники</h1>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+  {% for person in staff %}
+  <div class="movie-card" style="display: flex; align-items: center; gap: 20px;">
+    <!-- Фото сотрудника -->
+    {% if person.photo %}
+    <img src="{{ person.photo.url }}" alt="{{ person.name }}"
+         style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #e67e22;">
+    {% else %}
+    <div style="width: 100px; height: 100px; border-radius: 50%; background: #ccc; display: flex; align-items: center; justify-content: center;">👤</div>
+    {% endif %}
+
+    <!-- Информация -->
+    <div>
+      <h3 style="margin: 0;">{{ person.name }}</h3>
+      <p style="color: #e67e22; font-weight: bold; margin: 5px 0;">{{ person.role }}</p>
+      <p style="margin: 0; font-size: 0.9em;">📧 {{ person.email }}</p>
+      <p style="margin: 0; font-size: 0.9em;">📱 {{ person.phone }}</p>
+    </div>
+  </div>
+  {% empty %}
+  <p>Список сотрудников скоро появится.</p>
+  {% endfor %}
+</div>
+
+<div class="movie-card" style="margin-top: 30px; background: #333; color: white;">
+  <h3>📍 Где мы находимся?</h3>
+  <p>Адрес: г. Минск, ул. Гикало, д. 9 (здание БГУИР №4)</p>
+  <p>Режим работы: ежедневно с 09:00 до 00:00</p>
+</div>
+{% endblock %}

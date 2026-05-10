@@ -1,0 +1,31 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Новости 2026 - CinemaLab{% endblock %}
+
+{% block content %}
+<h1>📰 Новости и события 2026</h1>
+
+{% for article in news %}
+<div class="movie-card">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>{{ article.title }}</h2>
+    <span style="background: #e67e22; color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8em;">
+            {{ article.published_date|date:"d.m.Y" }}
+        </span>
+  </div>
+
+  {% if article.image %}
+  <div style="margin: 15px 0;">
+    <img src="{{ article.image.url }}" alt="{{ article.title }}" style="max-width: 100%; border-radius: 8px;">
+  </div>
+  {% endif %}
+
+  <p style="font-size: 1.1em; color: #333;"><strong>{{ article.short_description }}</strong></p>
+  <div style="line-height: 1.6; color: #555;">
+    {{ article.content|linebreaks }}
+  </div>
+</div>
+{% empty %}
+<p>Новостей на 2026 год пока нет.</p>
+{% endfor %}
+{% endblock %}
