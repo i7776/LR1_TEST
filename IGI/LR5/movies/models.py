@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+import re
+from django.core.exceptions import ValidationError
+from datetime import date
+
 
 class Genre(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название")
@@ -55,9 +59,29 @@ class Ticket(models.Model):
     def __str__(self):
         return f"Билет на {self.screening.movie.title} (Место: {self.seat_number})"
 
+def validate_phone_number(value):
+    pattern = r'^\+375 \(29\) \d{3}-\d{2}-\d{2}$'
+    if not re.match(pattern, value):
+        raise ValidationError("Номер телефона должен быть в формате +375 (29) XXX-XX-XX")
+
+
+def validate_employee_age(value):
+    today = date.today()
+    age = today.year - value.year - ((today.month, today.day) < (value.month, value.day))
+    if age < 18:
+        raise ValidationError("Сотрудник должен быть старше 18 лет!")
+
+
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    position = models.CharField(max_length=100, verbose_name="Должность (Кассир)")
+    position = models.CharField(max_length=100, verbose_name="Должность")
+
+    # Подключаем наши функции к полям
+    birth_date = models.DateField(validators=[validate_employee_age], verbose_name="Дата рождения", null=True)
+    phone = models.CharField(max_length=20, validators=[validate_phone_number], verbose_name="Телефон", null=True)
+
+    def __str__(self):
+        return f"{self.user.username} ({self.position})"
 
 class AboutCompany(models.Model):
     title = models.CharField(max_length=200, default="О нашей компании")

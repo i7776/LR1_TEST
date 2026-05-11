@@ -3,9 +3,32 @@ from django.db.models import Avg
 from .models import Movie, AboutCompany, News, FAQ, ContactInfo, Vacancy, Review, PromoCode
 import requests
 from .forms import ReviewForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+import datetime
+import calendar
+from django.utils import timezone
 
 def movie_list(request):
     movies = Movie.objects.all()
+
+    # ПОИСК: если в адресе есть параметр 'q'
+    query = request.GET.get('q')
+    if query:
+        # icontains — поиск по части слова (без учета регистра)
+        movies = movies.filter(title__icontains=query)
+
+    sort_by = request.GET.get('sort')
+    if sort_by == 'rating':
+        movies = movies.order_by('-rating') # минус означает от большего к меньшему
+    elif sort_by == 'new':
+        movies = movies.order_by('-data')
+    elif sort_by == 'old':
+        movies = movies.order_by('data')
+
+    now = datetime.datetime.now()
+    # Текстовый календарь на текущий месяц
+    cal = calendar.HTMLCalendar(calendar.MONDAY).formatmonth(now.year, now.month)
 
     # статистика
     stats = {
@@ -15,7 +38,12 @@ def movie_list(request):
 
     return render(request, 'movies/index.html', {
         'movies': movies,
-        'stats': stats # передаем статистику
+        'stats': stats, # передаем статистику
+        'current_time_local': now,
+        'current_time_utc': datetime.datetime.utcnow(),
+        'user_timezone': timezone.get_current_timezone_name(),
+        'calendar': cal,
+        'query': query
     })
 
 def about(request):
@@ -86,3 +114,14 @@ def promos(request):
 
 def privacy(request):
     return render(request, 'movies/privacy.html')
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save() # создаем пользователя в бд
+            login(request, user) # входим на сайт под этим именем
+            return redirect('movie_list') # уходим на главную
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})

@@ -1,0 +1,11 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+<div class="movie-card">
+    <h2>Вход на сайт</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="background: #333; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Войти</button>
+    </form>
+</div>
+{% endblock %}

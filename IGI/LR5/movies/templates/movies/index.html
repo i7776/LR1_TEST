@@ -6,6 +6,29 @@
 <h1>🎬 Сейчас в прокате</h1>
 
 <div class="info-card">
+    <form method="get" action="">
+        <!-- Поле поиска -->
+        <input type="text" name="q" placeholder="Поиск фильма..." value="{{ query|default:'' }}"
+               style="padding: 8px; width: 250px; border-radius: 5px; border: 1px solid #ccc;">
+
+        <!-- Выбор сортировки -->
+        <select name="sort" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+            <option value="">Сортировать по...</option>
+            <option value="rating">Лучший рейтинг</option>
+            <option value="new">Сначала новые</option>
+            <option value="old">Сначала старые</option>
+        </select>
+
+        <button type="submit" style="padding: 8px 15px; background: #333; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            Найти
+        </button>
+
+        <!-- Ссылка, чтобы сбросить фильтры -->
+        <a href="/" style="margin-left: 10px; color: #666; font-size: 0.9em;">Сбросить</a>
+    </form>
+</div>
+
+<div class="info-card">
     <p>📊 <strong>Статистика кинотеатра:</strong></p>
     <ul>
         <li>Всего фильмов: {{ stats.total_count }}</li>
@@ -24,4 +47,21 @@
 {% empty %}
 <p>Фильмов пока нет.</p>
 {% endfor %}
+
+<div class="info-card" style="margin-top: 40px; background: #fdfdfd; border: 1px solid #eee;">
+    <h3>🕒 Время и Календарь</h3>
+    <p>Ваша таймзона: <strong>{{ user_timezone }}</strong></p>
+    <p>Локальное время: <strong>{{ current_time_local|date:"d/m/Y H:i" }}</strong></p>
+    <p>Время UTC: <strong>{{ current_time_utc|date:"d/m/Y H:i" }}</strong></p>
+
+    <div class="calendar-table">
+        {{ calendar|safe }}
+    </div>
+</div>
+
+<style>
+    .calendar-table table { border-collapse: collapse; width: 100%; background: white; }
+    .calendar-table td, .calendar-table th { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    .month { font-weight: bold; background: #f4f4f4; }
+</style>
 {% endblock %}

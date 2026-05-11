@@ -32,6 +32,16 @@
     <a href="/vacancies/">Вакансии</a>
     <a href="/reviews/">Отзывы</a>
     <a href="/promos/">Промокоды</a>
+    {% if user.is_authenticated %}
+    <span>Привет, <strong>{{ user.username }}</strong>!</span>
+    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit" style="background:none; border:none; color:blue; cursor:pointer; text-decoration:underline;">Выйти</button>
+    </form>
+    {% else %}
+    <a href="{% url 'login' %}">Войти</a>
+    <a href="/register/">Регистрация</a>
+    {% endif %}
   </nav>
 
   {% block content %}

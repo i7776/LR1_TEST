@@ -1,0 +1,13 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+<div class="movie-card">
+    <h2>📝 Регистрация нового зрителя</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="background: #e67e22; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+            Зарегистрироваться
+        </button>
+    </form>
+</div>
+{% endblock %}
