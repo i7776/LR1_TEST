@@ -140,3 +140,9 @@ class PromoCode(models.Model):
     def __str__(self):
         return self.code
 
+class ClientProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    birth_date = models.DateField(verbose_name="Дата рождения")
+
+    def __str__(self):
+        return f"Профиль: {self.user.username}"

@@ -1,50 +1,78 @@
 from django.shortcuts import render, redirect
-from django.db.models import Avg
-from .models import Movie, AboutCompany, News, FAQ, ContactInfo, Vacancy, Review, PromoCode
+from .models import Movie, AboutCompany, News, FAQ, ContactInfo, Vacancy, Review, PromoCode, ClientProfile
 import requests
-from .forms import ReviewForm
+from .forms import ReviewForm, ExtendedUserCreationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from datetime import date
 import datetime
 import calendar
 from django.utils import timezone
+import numpy as np
 
 def movie_list(request):
     movies = Movie.objects.all()
 
-    # ПОИСК: если в адресе есть параметр 'q'
-    query = request.GET.get('q')
-    if query:
-        # icontains — поиск по части слова (без учета регистра)
-        movies = movies.filter(title__icontains=query)
-
+    query = request.GET.get('q', '')
     sort_by = request.GET.get('sort')
+
     if sort_by == 'rating':
-        movies = movies.order_by('-rating') # минус означает от большего к меньшему
+        movies = movies.order_by('-rating')
     elif sort_by == 'new':
         movies = movies.order_by('-data')
     elif sort_by == 'old':
         movies = movies.order_by('data')
 
-    now = datetime.datetime.now()
-    # Текстовый календарь на текущий месяц
-    cal = calendar.HTMLCalendar(calendar.MONDAY).formatmonth(now.year, now.month)
+    if query:
+        movies_list = [m for m in movies if query.lower() in m.title.lower()]
+    else:
+        movies_list = list(movies)
 
-    # статистика
+    ratings = [float(m.rating) for m in movies_list]
     stats = {
-        'total_count': movies.count(),
-        'average_rating': movies.aggregate(Avg('rating'))['rating__avg'], # агр считает итоговое число и возвращает словарь
+        'total_count': len(movies_list),
+        'average_rating': 0,
+        'median_rating': 0,
+        'mode_rating': 0,
     }
 
-    return render(request, 'movies/index.html', {
-        'movies': movies,
-        'stats': stats, # передаем статистику
+    if ratings:
+        stats['average_rating'] = np.mean(ratings)
+        stats['median_rating'] = np.median(ratings)
+
+        vals, counts = np.unique(ratings, return_counts=True)
+        index = np.argmax(counts)
+        stats['mode_rating'] = vals[index]
+
+    raw_genre_data = {}
+    for m in movies_list:
+        name = m.genre.name
+        raw_genre_data[name] = raw_genre_data.get(name, 0) + 1
+
+    # превращаем в список словарей, чтобы было удобно выводить
+    genre_data = []
+    for name, count in raw_genre_data.items():
+        genre_data.append({
+            'name': name,
+            'count': count,
+            'bar_height': count * 8 + 10
+        })
+
+    now = datetime.datetime.now()
+    cal = calendar.HTMLCalendar(calendar.MONDAY).formatmonth(now.year, now.month)
+
+    context = {
+        'movies': movies_list,
+        'stats': stats,
+        'query': query,
+        'genre_data': genre_data,
         'current_time_local': now,
         'current_time_utc': datetime.datetime.utcnow(),
         'user_timezone': timezone.get_current_timezone_name(),
         'calendar': cal,
-        'query': query
-    })
+    }
+
+    return render(request, 'movies/index.html', context)
 
 def about(request):
     info = AboutCompany.objects.first()
@@ -117,11 +145,27 @@ def privacy(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = ExtendedUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save() # создаем пользователя в бд
-            login(request, user) # входим на сайт под этим именем
-            return redirect('movie_list') # уходим на главную
+            user = form.save()
+            birth_date = form.cleaned_data.get('birth_date')
+
+            # 18+
+            today = date.today()
+            age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+
+            if age < 18:
+                user.delete()
+                return render(request, 'registration/register.html', {
+                    'form': form,
+                    'error': "Регистрация только для лиц старше 18 лет!"
+                })
+
+            ClientProfile.objects.create(user=user, birth_date=birth_date)
+
+            login(request, user)
+            return redirect('movie_list')
     else:
-        form = UserCreationForm()
+        form = ExtendedUserCreationForm()
+
     return render(request, 'registration/register.html', {'form': form})
