@@ -56,6 +56,11 @@
     </div>
 </div>
 
+{% if user.is_superuser %}
+<a href="{% url 'movie_create' %}" style="display: inline-block; background: #27ae60; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-bottom: 20px;">
+    ➕ Добавить новый фильм
+</a>
+{% endif %}
 {% for movie in movies %}
 <div class="movie-card">
     <h2>{{ movie.title }}</h2>
@@ -63,6 +68,13 @@
     <p><strong>Жанр:</strong> {{ movie.genre.name }}</p>
     <p class="rating">⭐ Рейтинг: {{ movie.rating }}</p>
     <p>{{ movie.description|truncatewords:30 }}</p>
+    <!-- Блок управления для АДМИНА -->
+    {% if user.is_superuser %}
+    <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;">
+        <a href="{% url 'movie_update' movie.id %}" style="color: #2980b9; text-decoration: none; margin-right: 15px;">✏️ Редактировать</a>
+        <a href="{% url 'movie_delete' movie.id %}" style="color: #c0392b; text-decoration: none;">🗑️ Удалить</a>
+    </div>
+    {% endif %}
 </div>
 {% empty %}
 <p>Фильмов пока нет.</p>

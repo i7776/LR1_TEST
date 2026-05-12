@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Movie, AboutCompany, News, FAQ, ContactInfo, Vacancy, Review, PromoCode, ClientProfile
 import requests
-from .forms import ReviewForm, ExtendedUserCreationForm
+from .forms import ReviewForm, ExtendedUserCreationForm, MovieForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from datetime import date
@@ -169,3 +169,44 @@ def register(request):
         form = ExtendedUserCreationForm()
 
     return render(request, 'registration/register.html', {'form': form})
+
+# 1. Создание нового фильма
+def movie_create(request):
+    if not request.user.is_superuser: # Если не админ - уходи
+        return redirect('movie_list')
+
+    if request.method == "POST":
+        form = MovieForm(request.POST, request.FILES) # FILES нужен для загрузки постера
+        if form.is_valid():
+            form.save()
+            return redirect('movie_list')
+    else:
+        form = MovieForm()
+    return render(request, 'movies/movie_form.html', {'form': form, 'title': 'Добавить новый фильм'})
+
+# 2. Редактирование существующего фильма
+def movie_update(request, pk):
+    if not request.user.is_superuser:
+        return redirect('movie_list')
+
+    movie = get_object_or_404(Movie, pk=pk) # Ищем фильм по ID или выдаем ошибку 404
+    if request.method == "POST":
+        # instance=movie говорит Django: "не создавай новый, а обнови этот"
+        form = MovieForm(request.POST, request.FILES, instance=movie)
+        if form.is_valid():
+            form.save()
+            return redirect('movie_list')
+    else:
+        form = MovieForm(instance=movie)
+    return render(request, 'movies/movie_form.html', {'form': form, 'title': 'Редактировать фильм'})
+
+# 3. Удаление фильма
+def movie_delete(request, pk):
+    if not request.user.is_superuser:
+        return redirect('movie_list')
+
+    movie = get_object_or_404(Movie, pk=pk)
+    if request.method == "POST": # Если нажали кнопку подтверждения
+        movie.delete()
+        return redirect('movie_list')
+    return render(request, 'movies/movie_confirm_delete.html', {'movie': movie})

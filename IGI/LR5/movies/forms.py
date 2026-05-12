@@ -1,5 +1,5 @@
 from django import forms
-from .models import Review, ClientProfile
+from .models import Review, ClientProfile, Movie
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -25,3 +25,13 @@ class ExtendedUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = UserCreationForm.Meta.fields + ('first_name', 'last_name')
+
+class MovieForm(forms.ModelForm):
+    class Meta:
+        model = Movie
+        # cписок полей, которые мы разрешим менять на сайте
+        fields = ['title', 'description', 'data', 'duration', 'budget', 'country', 'genre', 'rating', 'poster', 'actors']
+        # делаем поле даты удобным (выбор из календаря)
+        widgets = {
+            'data': forms.DateInput(attrs={'type': 'date', 'style': 'width: 100%; padding: 8px;'}),
+        }

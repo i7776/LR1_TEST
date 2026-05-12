@@ -17,3 +17,16 @@ admin.site.register(Vacancy)
 admin.site.register(PromoCode)
 admin.site.register(ContactInfo)
 admin.site.register(PrivacyPolicy)
+
+# class ScreeningInline(admin.TabularInline):
+#     model = Screening
+#     extra = 1
+#
+# class MovieAdmin(admin.ModelAdmin):
+#     list_display = ('title', 'genre', 'rating', 'data')
+#     list_filter = ('genre', 'data')
+#     search_fields = ('title', 'description')
+#     inlines = [ScreeningInline]
+#
+# admin.site.unregister(Movie)
+# admin.site.register(Movie, MovieAdmin)

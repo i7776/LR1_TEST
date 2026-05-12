@@ -12,4 +12,7 @@ urlpatterns = [
     re_path(r'^promos/$', views.promos, name='promos'),
     re_path(r'^privacy/$', views.privacy, name='privacy'),
     re_path(r'^register/$', views.register, name='register'),
+    re_path(r'^movie/add/$', views.movie_create, name='movie_create'),
+    re_path(r'^movie/(?P<pk>\d+)/edit/$', views.movie_update, name='movie_update'),
+    re_path(r'^movie/(?P<pk>\d+)/delete/$', views.movie_delete, name='movie_delete'),
 ]

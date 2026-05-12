@@ -7,7 +7,7 @@ from datetime import datetime
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cinema_project.settings')
 django.setup()
 
-from movies.models import Movie, Genre
+from movies.models import Movie, Genre, Actor
 
 def fetch_movies():
     api_key = '83e7f40222f4529dadf79c3cb637f592'
@@ -19,18 +19,19 @@ def fetch_movies():
     try:
         response = requests.get(url)
         movies_list = response.json().get('results', [])
+
         for item in movies_list[:12]:
+            movie_id = item['id'] # нужен ID для запроса актеров
+
+            # обработка даты
             raw_date = item.get('release_date')
-            if raw_date:
-                release_date = datetime.strptime(raw_date, '%Y-%m-%d').date()
-            else:
-                release_date = datetime.now().date()
+            release_date = datetime.strptime(raw_date, '%Y-%m-%d').date() if raw_date else datetime.now().date()
 
-
+            # создаем или находим фильм
             movie, created = Movie.objects.get_or_create(
                 title=item['title'],
                 defaults={
-                    'description': item.get('overview', 'Описания пока нет'),
+                    'description': item.get('overview', 'Описания нет'),
                     'data': release_date,
                     'duration': 120,
                     'budget': 50000000,
@@ -39,6 +40,17 @@ def fetch_movies():
                     'rating': item.get('vote_average', 0.0),
                 }
             )
+
+            print(f"Загружаю актеров для фильма: {movie.title}...")
+            credits_url = f'https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={api_key}&language=ru-RU'
+            credits_resp = requests.get(credits_url).json()
+            cast = credits_resp.get('cast', [])[:5] # Берем только ТОП-5 актеров
+
+            for actor_data in cast:
+                # Создаем актера в нашей базе
+                actor_obj, _ = Actor.objects.get_or_create(name=actor_data['name'])
+                # Привязываем его к фильму (это и есть работа ManyToManyField)
+                movie.actors.add(actor_obj)
 
             if created:
                 print(f" Добавлен: {movie.title}")

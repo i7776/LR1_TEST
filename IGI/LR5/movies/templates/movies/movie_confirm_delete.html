@@ -1,0 +1,14 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+<div class="movie-card" style="border: 2px solid #c0392b;">
+    <h1>⚠️ Удаление фильма</h1>
+    <p>Вы действительно хотите удалить фильм <strong>"{{ movie.title }}"</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" style="background: #c0392b; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+            ДА, УДАЛИТЬ НАВСЕГДА
+        </button>
+        <a href="/" style="margin-left: 20px;">Нет, оставить</a>
+    </form>
+</div>
+{% endblock %}
