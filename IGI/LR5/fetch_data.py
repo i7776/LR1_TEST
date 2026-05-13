@@ -44,12 +44,12 @@ def fetch_movies():
             print(f"Загружаю актеров для фильма: {movie.title}...")
             credits_url = f'https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={api_key}&language=ru-RU'
             credits_resp = requests.get(credits_url).json()
-            cast = credits_resp.get('cast', [])[:5] # Берем только ТОП-5 актеров
+            cast = credits_resp.get('cast', [])[:5] # 5 актеров
 
             for actor_data in cast:
-                # Создаем актера в нашей базе
+                # cоздаем актера в нашей базе
                 actor_obj, _ = Actor.objects.get_or_create(name=actor_data['name'])
-                # Привязываем его к фильму (это и есть работа ManyToManyField)
+                # gривязываем его к фильму
                 movie.actors.add(actor_obj)
 
             if created:

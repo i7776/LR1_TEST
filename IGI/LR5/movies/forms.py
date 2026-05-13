@@ -1,5 +1,5 @@
 from django import forms
-from .models import Review, ClientProfile, Movie
+from .models import Review, ClientProfile, Movie, Hall
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -35,3 +35,20 @@ class MovieForm(forms.ModelForm):
         widgets = {
             'data': forms.DateInput(attrs={'type': 'date', 'style': 'width: 100%; padding: 8px;'}),
         }
+
+class ScreeningForm(forms.Form):
+    # ModelChoiceField создает выпадающий список из существующих записей в базе
+    movie = forms.ModelChoiceField(queryset=Movie.objects.all(), label="Выберите фильм")
+    hall = forms.ModelChoiceField(queryset=Hall.objects.all(), label="Выберите зал")
+    time = forms.DateTimeField(
+        label="Дата и время",
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local', 'style': 'width: 100%; padding: 8px;'})
+    )
+    price = forms.DecimalField(max_digits=10, decimal_places=2, label="Цена билета (BYN)")
+
+class TicketForm(forms.Form):
+    # строка, чтобы можно было ввести "10, 11, 12"
+    seat_numbers = forms.CharField(
+        label="Номера мест (через запятую)",
+        widget=forms.TextInput(attrs={'style': 'padding: 5px; width: 200px;', 'placeholder': 'Например: 12, 13'})
+    )

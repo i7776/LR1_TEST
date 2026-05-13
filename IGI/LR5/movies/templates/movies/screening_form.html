@@ -1,0 +1,14 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+<div class="movie-card">
+    <h1>{{ title }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+            Сохранить сеанс
+        </button>
+        <a href="/" style="margin-left: 15px;">Отмена</a>
+    </form>
+</div>
+{% endblock %}

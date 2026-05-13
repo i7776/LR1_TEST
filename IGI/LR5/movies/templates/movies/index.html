@@ -7,11 +7,11 @@
 
 <div class="info-card">
     <form method="get" action="">
-        <!-- Поле поиска -->
+        <!-- поле поиска -->
         <input type="text" name="q" placeholder="Поиск фильма..." value="{{ query|default:'' }}"
                style="padding: 8px; width: 250px; border-radius: 5px; border: 1px solid #ccc;">
 
-        <!-- Выбор сортировки -->
+        <!-- выбор сортировки -->
         <select name="sort" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
             <option value="">Сортировать по...</option>
             <option value="rating">Лучший рейтинг</option>
@@ -56,11 +56,7 @@
     </div>
 </div>
 
-{% if user.is_superuser %}
-<a href="{% url 'movie_create' %}" style="display: inline-block; background: #27ae60; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-bottom: 20px;">
-    ➕ Добавить новый фильм
-</a>
-{% endif %}
+
 {% for movie in movies %}
 <div class="movie-card">
     <h2>{{ movie.title }}</h2>
@@ -68,13 +64,51 @@
     <p><strong>Жанр:</strong> {{ movie.genre.name }}</p>
     <p class="rating">⭐ Рейтинг: {{ movie.rating }}</p>
     <p>{{ movie.description|truncatewords:30 }}</p>
-    <!-- Блок управления для АДМИНА -->
+
     {% if user.is_superuser %}
     <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;">
-        <a href="{% url 'movie_update' movie.id %}" style="color: #2980b9; text-decoration: none; margin-right: 15px;">✏️ Редактировать</a>
-        <a href="{% url 'movie_delete' movie.id %}" style="color: #c0392b; text-decoration: none;">🗑️ Удалить</a>
+        <a href="{% url 'movie_update' movie.id %}" style="color: #2980b9; text-decoration: none; margin-right: 15px;">✏️ Редактировать фильм</a>
+        <a href="{% url 'movie_delete' movie.id %}" style="color: #c0392b; text-decoration: none;">🗑️ Удалить фильм</a>
     </div>
     {% endif %}
+
+    <div style="background: #f9f9f9; padding: 10px; margin-top: 15px; border-radius: 5px; border: 1px dashed #ccc;">
+        <strong style="color: #333;">📅 Расписание сеансов:</strong>
+        <ul style="list-style: none; padding: 0; margin-top: 10px;">
+            <!-- перебираем все сеансы конкретно для фильма -->
+            {% for s in movie.screening_set.all %}
+            <li style="margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid #ddd;">
+                🕒 {{ s.time|date:"d.m.Y H:i" }} — Зал №{{ s.hall.number }}
+                <strong>({{ s.price }} BYN)</strong>
+
+                <!-- кнопки управления сеансом для админа -->
+                {% if user.is_superuser %}
+                <br>
+                <a href="{% url 'screening_update' s.id %}" style="color: blue; font-size: 0.9em; margin-right: 10px;">Ред. сеанс</a>
+                <a href="{% url 'screening_delete' s.id %}" style="color: red; font-size: 0.9em;">Удалить сеанс</a>
+                {% endif %}
+
+                <!-- КУПИТЬ БИЛЕТ (только для залогиненных юзеров, но не админов) -->
+                {% if user.is_authenticated and not user.is_superuser %}
+                <br>
+                <a href="{% url 'book_ticket' s.id %}" style="display: inline-block; margin-top: 5px; background: #27ae60; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em;">
+                    🎟️ Купить билет
+                </a>
+                {% endif %}
+            </li>
+            {% empty %}
+            <li style="color: #888;">Сеансов пока нет.</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Кнопка "Добавить сеанс" для админа -->
+        {% if user.is_superuser %}
+        <a href="{% url 'screening_create' %}?movie_id={{ movie.id }}" style="font-size: 0.9em; color: #27ae60; font-weight: bold; text-decoration: none;">
+            ➕ Добавить сеанс для фильма
+        </a>
+        {% endif %}
+    </div>
+
 </div>
 {% empty %}
 <p>Фильмов пока нет.</p>

@@ -1,0 +1,45 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+<div class="movie-card">
+    <h2>🎟️ Покупка билетов</h2>
+    <p>Фильм: <strong>{{ screening.movie.title }}</strong></p>
+    <p>Время: {{ screening.time|date:"d.m.Y H:i" }} | Зал №{{ screening.hall.number }} (Всего мест: {{ screening.hall.capacity }})</p>
+    <p>Цена за 1 билет: <strong style="color: green;">{{ screening.price }} BYN</strong></p>
+
+    <hr>
+
+    <!-- статус мест -->
+    <div style="background: #f4f4f4; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+        <h4 style="margin-top: 0;">Информация о местах:</h4>
+        <p><strong>Занятые места:</strong>
+            {% if taken_seats %}
+            <span style="color: red;">{{ taken_seats|join:", " }}</span>
+            {% else %}
+            <span style="color: green;">Все места свободны!</span>
+            {% endif %}
+        </p>
+        <p style="font-size: 0.9em; color: #666;">
+            Свободные места: {{ free_seats|join:", " }}
+        </p>
+    </div>
+
+    <!-- сообщения об ошибках или успехе -->
+    {% if messages %}
+    {% for message in messages %}
+    <p style="color: {% if message.tags == 'error' %}red{% else %}green{% endif %}; font-weight: bold;">
+        {{ message }}
+    </p>
+    {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p><small style="color: #666;">*Для покупки нескольких билетов введите номера мест через запятую (например: 5, 6, 7).</small></p>
+        <button type="submit" style="background: #27ae60; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+            Забронировать
+        </button>
+        <a href="/" style="margin-left: 15px;">Отмена</a>
+    </form>
+</div>
+{% endblock %}

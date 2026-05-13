@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Movie, AboutCompany, News, FAQ, ContactInfo, Vacancy, Review, PromoCode, ClientProfile
+from .models import Movie, AboutCompany, News, FAQ, ContactInfo, Vacancy, Review, PromoCode, ClientProfile, Screening, Ticket
 import requests
-from .forms import ReviewForm, ExtendedUserCreationForm, MovieForm
+from .forms import ReviewForm, ExtendedUserCreationForm, MovieForm, ScreeningForm, TicketForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from datetime import date
@@ -9,7 +9,9 @@ import datetime
 import calendar
 from django.utils import timezone
 import numpy as np
-
+from django.http import Http404
+from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib import messages
 def movie_list(request):
     movies = Movie.objects.all()
 
@@ -170,7 +172,9 @@ def register(request):
 
     return render(request, 'registration/register.html', {'form': form})
 
-# 1. Создание нового фильма
+
+# Создание нового фильма
+@user_passes_test(lambda u: u.is_superuser)
 def movie_create(request):
     if not request.user.is_superuser: # Если не админ - уходи
         return redirect('movie_list')
@@ -184,7 +188,8 @@ def movie_create(request):
         form = MovieForm()
     return render(request, 'movies/movie_form.html', {'form': form, 'title': 'Добавить новый фильм'})
 
-# 2. Редактирование существующего фильма
+# Редактирование существующего фильма
+@user_passes_test(lambda u: u.is_superuser)
 def movie_update(request, pk):
     if not request.user.is_superuser:
         return redirect('movie_list')
@@ -201,6 +206,7 @@ def movie_update(request, pk):
     return render(request, 'movies/movie_form.html', {'form': form, 'title': 'Редактировать фильм'})
 
 # 3. Удаление фильма
+@user_passes_test(lambda u: u.is_superuser)
 def movie_delete(request, pk):
     if not request.user.is_superuser:
         return redirect('movie_list')
@@ -210,3 +216,147 @@ def movie_delete(request, pk):
         movie.delete()
         return redirect('movie_list')
     return render(request, 'movies/movie_confirm_delete.html', {'movie': movie})
+
+# Создание сеанса
+def screening_create(request):
+    if not request.user.is_superuser: return redirect('movie_list')
+
+    # Пытаемся поймать ID фильма из ссылки
+    movie_id = request.GET.get('movie_id')
+    initial_data = {}
+    if movie_id:
+        initial_data['movie'] = movie_id # Предзаполняем поле movie
+
+    if request.method == "POST":
+        form = ScreeningForm(request.POST)
+        if form.is_valid():
+            Screening.objects.create(
+                movie=form.cleaned_data['movie'],
+                hall=form.cleaned_data['hall'],
+                time=form.cleaned_data['time'],
+                price=form.cleaned_data['price']
+            )
+            return redirect('movie_list')
+    else:
+        # Передаем initial_data в форму
+        form = ScreeningForm(initial=initial_data)
+
+    return render(request, 'movies/screening_form.html', {'form': form, 'title': 'Добавить сеанс'})
+
+# Редактирование сеанса
+def screening_update(request, pk):
+    if not request.user.is_superuser: return redirect('movie_list')
+
+    try:
+        sc = Screening.objects.get(id=pk)
+    except Screening.DoesNotExist:
+        raise Http404("Сеанс не найден")
+
+    if request.method == "POST":
+        form = ScreeningForm(request.POST)
+        if form.is_valid():
+            sc.movie = form.cleaned_data['movie']
+            sc.hall = form.cleaned_data['hall']
+            sc.time = form.cleaned_data['time']
+            sc.price = form.cleaned_data['price']
+            sc.save()
+            return redirect('movie_list')
+    else:
+        initial = {'movie': sc.movie, 'hall': sc.hall, 'time': sc.time, 'price': sc.price}
+        form = ScreeningForm(initial=initial)
+
+    return render(request, 'movies/screening_form.html', {'form': form, 'title': 'Изменить сеанс'})
+
+# Удаление сеанса
+def screening_delete(request, pk):
+    if not request.user.is_superuser: return redirect('movie_list')
+    try:
+        sc = Screening.objects.get(id=pk)
+        sc.delete()
+    except Screening.DoesNotExist:
+        pass
+    return redirect('movie_list')
+
+# покупка билета
+@login_required
+def book_ticket(request, screening_id):
+    screening = get_object_or_404(Screening, id=screening_id)
+
+    #  какие места уже заняты на этот сеанс
+    taken_tickets = Ticket.objects.filter(screening=screening).values_list('seat_number', flat=True)
+    taken_seats = list(taken_tickets) # Список занятых мест [10, 15, 16]
+
+    # считаем, сколько всего мест в зале
+    total_capacity = screening.hall.capacity
+    # генерируем список свободных мест
+    free_seats = [i for i in range(1, total_capacity + 1) if i not in taken_seats]
+
+    if request.method == 'POST':
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            seats_input = form.cleaned_data['seat_numbers']
+
+            try:
+                # разбиваем строку по запятым, убираем пробелы и превращаем в числа
+                requested_seats = [int(s.strip()) for s in seats_input.split(',')]
+            except ValueError:
+                messages.error(request, "Ошибка формата! Вводите только числа через запятую.")
+                return redirect('book_ticket', screening_id=screening.id)
+
+            errors = []
+            valid_seats = []
+
+            # проверяем каждое запрошенное место
+            for seat in requested_seats:
+                if seat > total_capacity or seat < 1:
+                    errors.append(f"Места №{seat} нет в зале (всего {total_capacity} мест).")
+                elif seat in taken_seats:
+                    errors.append(f"Место №{seat} уже занято.")
+                else:
+                    valid_seats.append(seat)
+
+            # если есть ошибки - выводим ошибки
+            if errors:
+                for error in errors:
+                    messages.error(request, error)
+            else:
+                # если всё ок, бронируем все места
+                for seat in valid_seats:
+                    Ticket.objects.create(
+                        screening=screening,
+                        user=request.user,
+                        seat_number=seat
+                    )
+                # подсчет итоговой суммы
+                total_price = len(valid_seats) * screening.price
+                messages.success(request, f"Успешно забронировано мест: {len(valid_seats)}. Итого к оплате: {total_price} BYN.")
+                return redirect('my_tickets')
+    else:
+        form = TicketForm()
+
+    return render(request, 'movies/book_ticket.html', {
+        'screening': screening,
+        'form': form,
+        'free_seats': free_seats, # Передаем свободные места в шаблон
+        'taken_seats': taken_seats # И занятые тоже
+    })
+
+# личный кабинет пользователя (список билетов)
+@login_required
+def my_tickets(request):
+    tickets = Ticket.objects.filter(user=request.user)
+    total_sum = sum(t.screening.price for t in tickets)
+
+    return render(request, 'movies/my_tickets.html', {
+        'tickets': tickets,
+        'total_sum': total_sum # Передаем сумму в шаблон
+    })
+# отмена брони (удаление билета)
+@login_required
+def cancel_ticket(request, ticket_id):
+    # билет существует и принадлежит этому юзеру
+    ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)
+    if request.method == 'POST':
+        ticket.delete()
+        return redirect('my_tickets')
+    return render(request, 'movies/ticket_confirm_delete.html', {'ticket': ticket})

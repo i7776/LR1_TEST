@@ -15,4 +15,10 @@ urlpatterns = [
     re_path(r'^movie/add/$', views.movie_create, name='movie_create'),
     re_path(r'^movie/(?P<pk>\d+)/edit/$', views.movie_update, name='movie_update'),
     re_path(r'^movie/(?P<pk>\d+)/delete/$', views.movie_delete, name='movie_delete'),
+    re_path(r'^screening/add/$', views.screening_create, name='screening_create'),
+    re_path(r'^screening/(?P<pk>\d+)/edit/$', views.screening_update, name='screening_update'),
+    re_path(r'^screening/(?P<pk>\d+)/delete/$', views.screening_delete, name='screening_delete'),
+    re_path(r'^book/(?P<screening_id>\d+)/$', views.book_ticket, name='book_ticket'),
+    re_path(r'^my-tickets/$', views.my_tickets, name='my_tickets'),
+    re_path(r'^ticket/(?P<ticket_id>\d+)/cancel/$', views.cancel_ticket, name='cancel_ticket'),
 ]
