@@ -32,7 +32,6 @@
     <a href="/vacancies/">Вакансии</a>
     <a href="/reviews/">Отзывы</a>
     <a href="/promos/">Промокоды</a>
-    <a href="/promos/">Промокоды</a>
 
     {% if user.is_authenticated %}
     <a href="{% url 'my_tickets' %}" style="background: #e67e22; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; margin-left: 15px;">
@@ -40,7 +39,12 @@
     </a>
 
     <span style="margin-left: 15px;">Привет, <strong>{{ user.username }}</strong>!</span> |
-    <a href="{% url 'logout' %}">Выйти</a>
+    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit" style="background:none; border:none; color:#c0392b; cursor:pointer; font-weight:bold; padding:0; text-decoration:underline;">
+        Выйти
+      </button>
+    </form>
     {% else %}
     <a href="{% url 'login' %}">Войти</a> |
     <a href="{% url 'register' %}">Регистрация</a>

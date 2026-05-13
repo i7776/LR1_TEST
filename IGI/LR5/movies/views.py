@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Movie, AboutCompany, News, FAQ, ContactInfo, Vacancy, Review, PromoCode, ClientProfile, Screening, Ticket
 import requests
 from .forms import ReviewForm, ExtendedUserCreationForm, MovieForm, ScreeningForm, TicketForm
-from django.contrib.auth.forms import UserCreationForm
+import logging
 from django.contrib.auth import login
 from datetime import date
 import datetime
@@ -12,6 +12,16 @@ import numpy as np
 from django.http import Http404
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import messages
+logger = logging.getLogger('django')
+
+def log_this(func):
+    def wrapper(request, *args, **kwargs):
+        user = request.user if request.user.is_authenticated else "Аноним"
+        logger.info(f"ПОЛЬЗОВАТЕЛЬ: {user} | ВЫЗВАЛ ФУНКЦИЮ: {func.__name__}")
+        return func(request, *args, **kwargs)
+    return wrapper
+
+@log_this
 def movie_list(request):
     movies = Movie.objects.all()
 
@@ -145,6 +155,7 @@ def promos(request):
 def privacy(request):
     return render(request, 'movies/privacy.html')
 
+@log_this
 def register(request):
     if request.method == 'POST':
         form = ExtendedUserCreationForm(request.POST)
@@ -205,7 +216,7 @@ def movie_update(request, pk):
         form = MovieForm(instance=movie)
     return render(request, 'movies/movie_form.html', {'form': form, 'title': 'Редактировать фильм'})
 
-# 3. Удаление фильма
+# Удаление фильма
 @user_passes_test(lambda u: u.is_superuser)
 def movie_delete(request, pk):
     if not request.user.is_superuser:
@@ -278,6 +289,7 @@ def screening_delete(request, pk):
     return redirect('movie_list')
 
 # покупка билета
+@log_this
 @login_required
 def book_ticket(request, screening_id):
     screening = get_object_or_404(Screening, id=screening_id)
@@ -342,6 +354,7 @@ def book_ticket(request, screening_id):
     })
 
 # личный кабинет пользователя (список билетов)
+@log_this
 @login_required
 def my_tickets(request):
     tickets = Ticket.objects.filter(user=request.user)
@@ -352,6 +365,7 @@ def my_tickets(request):
         'total_sum': total_sum # Передаем сумму в шаблон
     })
 # отмена брони (удаление билета)
+@log_this
 @login_required
 def cancel_ticket(request, ticket_id):
     # билет существует и принадлежит этому юзеру

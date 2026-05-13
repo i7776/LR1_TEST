@@ -1,0 +1,67 @@
+Watching for file changes with StatReloader
+онкэгнбюрекэ: kate | бшгбюк тсмйжхч: book_ticket
+"GET /book/1/ HTTP/1.1" 200 3730
+онкэгнбюрекэ: kate | бшгбюк тсмйжхч: book_ticket
+"POST /book/1/ HTTP/1.1" 302 0
+онкэгнбюрекэ: kate | бшгбюк тсмйжхч: my_tickets
+"GET /my-tickets/ HTTP/1.1" 200 4749
+онкэгнбюрекэ: kate | бшгбюк тсмйжхч: movie_list
+"GET / HTTP/1.1" 200 29057
+Method Not Allowed (GET): /accounts/logout/
+"GET /accounts/logout/ HTTP/1.1" 405 0
+Method Not Allowed (GET): /accounts/logout/
+"GET /accounts/logout/ HTTP/1.1" 405 0
+Method Not Allowed (GET): /accounts/logout/
+"GET /accounts/logout/ HTTP/1.1" 405 0
+онкэгнбюрекэ: kate | бшгбюк тсмйжхч: movie_list
+"GET / HTTP/1.1" 200 29057
+Method Not Allowed (GET): /accounts/logout/
+"GET /accounts/logout/ HTTP/1.1" 405 0
+"GET /faq/ HTTP/1.1" 200 3986
+"GET /contacts/ HTTP/1.1" 200 4384
+"GET /promos/ HTTP/1.1" 200 2266
+"GET /promos/ HTTP/1.1" 200 2266
+"GET /promos/ HTTP/1.1" 200 2266
+"GET /promos/ HTTP/1.1" 200 2266
+"GET /promos/ HTTP/1.1" 200 2266
+"GET /promos/ HTTP/1.1" 200 2266
+"GET /promos/ HTTP/1.1" 200 2266
+"GET /promos/ HTTP/1.1" 200 2220
+онкэгнбюрекэ: kate | бшгбюк тсмйжхч: my_tickets
+"GET /my-tickets/ HTTP/1.1" 200 4703
+онкэгнбюрекэ: kate | бшгбюк тсмйжхч: my_tickets
+"GET /my-tickets/ HTTP/1.1" 200 4703
+Method Not Allowed (GET): /accounts/logout/
+"GET /accounts/logout/ HTTP/1.1" 405 0
+онкэгнбюрекэ: kate | бшгбюк тсмйжхч: my_tickets
+"GET /my-tickets/ HTTP/1.1" 200 5061
+"POST /accounts/logout/ HTTP/1.1" 302 0
+онкэгнбюрекэ: юМНМХЛ | бшгбюк тсмйжхч: movie_list
+"GET / HTTP/1.1" 200 27855
+"GET /accounts/login/ HTTP/1.1" 200 2336
+"POST /accounts/login/ HTTP/1.1" 302 0
+онкэгнбюрекэ: kate | бшгбюк тсмйжхч: movie_list
+"GET / HTTP/1.1" 200 29369
+онкэгнбюрекэ: kate | бшгбюк тсмйжхч: my_tickets
+"GET /my-tickets/ HTTP/1.1" 200 5061
+онкэгнбюрекэ: kate | бшгбюк тсмйжхч: cancel_ticket
+"GET /ticket/8/cancel/ HTTP/1.1" 200 2791
+онкэгнбюрекэ: kate | бшгбюк тсмйжхч: cancel_ticket
+"POST /ticket/8/cancel/ HTTP/1.1" 302 0
+онкэгнбюрекэ: kate | бшгбюк тсмйжхч: my_tickets
+"GET /my-tickets/ HTTP/1.1" 200 4456
+D:\projects\453504_MASALOVA_16\IGI\LR5\cinema_project\settings.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+п÷п·п⌡п╛п≈п·п▓п░п╒п∙п⌡п╛: kate | п▓п╚п≈п▓п░п⌡ п╓пёп²п п╕п≤п╝: book_ticket
+"GET /book/3/ HTTP/1.1" 200 4205
+п÷п·п⌡п╛п≈п·п▓п░п╒п∙п⌡п╛: kate | п▓п╚п≈п▓п░п⌡ п╓пёп²п п╕п≤п╝: book_ticket
+"POST /book/3/ HTTP/1.1" 302 0
+п÷п·п⌡п╛п≈п·п▓п░п╒п∙п⌡п╛: kate | п▓п╚п≈п▓п░п⌡ п╓пёп²п п╕п≤п╝: my_tickets
+"GET /my-tickets/ HTTP/1.1" 200 5087
+п÷п·п⌡п╛п≈п·п▓п░п╒п∙п⌡п╛: kate | п▓п╚п≈п▓п░п⌡ п╓пёп²п п╕п≤п╝: cancel_ticket
+"GET /ticket/9/cancel/ HTTP/1.1" 200 2818
+п÷п·п⌡п╛п≈п·п▓п░п╒п∙п⌡п╛: kate | п▓п╚п≈п▓п░п⌡ п╓пёп²п п╕п≤п╝: cancel_ticket
+"POST /ticket/9/cancel/ HTTP/1.1" 302 0
+п÷п·п⌡п╛п≈п·п▓п░п╒п∙п⌡п╛: kate | п▓п╚п≈п▓п░п⌡ п╓пёп²п п╕п≤п╝: my_tickets
+"GET /my-tickets/ HTTP/1.1" 200 4456
