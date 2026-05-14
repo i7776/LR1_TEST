@@ -92,3 +92,8 @@ Watching for file changes with StatReloader
 ПОЛЬЗОВАТЕЛЬ: user_test | ВЫЗВАЛ ФУНКЦИЮ: cancel_ticket
 ПОЛЬЗОВАТЕЛЬ: Аноним | ВЫЗВАЛ ФУНКЦИЮ: movie_list
 ПОЛЬЗОВАТЕЛЬ: Аноним | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+Watching for file changes with StatReloader
+ПОЛЬЗОВАТЕЛЬ: kate | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 29369
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 7659

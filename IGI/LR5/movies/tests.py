@@ -82,7 +82,7 @@ class CinemaLabTests(TestCase):
             'country': 'Италия',
             'genre': self.genre.id,
             'rating': 7.5,
-            'actors': [self.actor.id] # ПЕРЕДАЕМ ID АКТЕРА (теперь форма сработает)
+            'actors': [self.actor.id]
         })
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Movie.objects.filter(title='Новый фильм через тест').exists())
