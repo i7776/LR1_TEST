@@ -29,15 +29,14 @@ class ExtendedUserCreationForm(UserCreationForm):
 class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
-        # cписок полей, которые мы разрешим менять на сайте
         fields = ['title', 'description', 'data', 'duration', 'budget', 'country', 'genre', 'rating', 'poster', 'actors']
-        # делаем поле даты удобным (выбор из календаря)
+        # делаем поле даты  из календаря
         widgets = {
             'data': forms.DateInput(attrs={'type': 'date', 'style': 'width: 100%; padding: 8px;'}),
         }
 
 class ScreeningForm(forms.Form):
-    # ModelChoiceField создает выпадающий список из существующих записей в базе
+    # ModelChoiceField выпадающий список из существующих записей в базе
     movie = forms.ModelChoiceField(queryset=Movie.objects.all(), label="Выберите фильм")
     hall = forms.ModelChoiceField(queryset=Hall.objects.all(), label="Выберите зал")
     time = forms.DateTimeField(

@@ -107,22 +107,22 @@ def movie_list(request):
 
 
 def get_graph():
-    # Создаем буфер для картинки
+    # создаем буфер для картинки
     buffer = io.BytesIO()
-    # Считаем жанры (простой код)
+    # считаем жанры
     all_movies = Movie.objects.all()
     genres = [m.genre.name for m in all_movies]
     genre_counts = {g: genres.count(g) for g in set(genres)}
 
-    # Рисуем
+    # рисуем
     plt.figure(figsize=(5, 3))
     plt.bar(genre_counts.keys(), genre_counts.values(), color='orange')
     plt.title('Фильмы по жанрам')
 
-    # Сохраняем в буфер
+    # сохраняем в буфер
     plt.savefig(buffer, format='png')
     buffer.seek(0)
-    # Кодируем в строку
+    # кодируем в строку
     image_png = buffer.getvalue()
     graph = base64.b64encode(image_png).decode('utf-8')
     buffer.close()
@@ -147,7 +147,7 @@ def about(request):
                 'city': city
             }
     except:
-        weather_data = None # Если интернет пропал, страница не должна упасть
+        weather_data = None # если интернет пропал, страница не должна упасть
 
     return render(request, 'movies/about.html', {
         'info': info,
@@ -225,11 +225,13 @@ def register(request):
 
     return render(request, 'registration/register.html', {'form': form})
 
+def check_admin(user):
+    return user.is_superuser
 
-# Создание нового фильма
-@user_passes_test(lambda u: u.is_superuser)
+# создание нового фильма
+@user_passes_test(check_admin)
 def movie_create(request):
-    if not request.user.is_superuser: # Если не админ - уходи
+    if not request.user.is_superuser: # если не админ - уходи
         return redirect('movie_list')
 
     if request.method == "POST":
@@ -241,15 +243,15 @@ def movie_create(request):
         form = MovieForm()
     return render(request, 'movies/movie_form.html', {'form': form, 'title': 'Добавить новый фильм'})
 
-# Редактирование существующего фильма
-@user_passes_test(lambda u: u.is_superuser)
+# редактирование существующего фильма
+@user_passes_test(check_admin)
 def movie_update(request, pk):
     if not request.user.is_superuser:
         return redirect('movie_list')
 
     movie = get_object_or_404(Movie, pk=pk) # Ищем фильм по ID или выдаем ошибку 404
     if request.method == "POST":
-        # instance=movie говорит Django: "не создавай новый, а обнови этот"
+        # instance=movie не создавай новый, а обнови этот
         form = MovieForm(request.POST, request.FILES, instance=movie)
         if form.is_valid():
             form.save()
@@ -258,19 +260,19 @@ def movie_update(request, pk):
         form = MovieForm(instance=movie)
     return render(request, 'movies/movie_form.html', {'form': form, 'title': 'Редактировать фильм'})
 
-# Удаление фильма
-@user_passes_test(lambda u: u.is_superuser)
+# удаление фильма
+@user_passes_test(check_admin)
 def movie_delete(request, pk):
     if not request.user.is_superuser:
         return redirect('movie_list')
 
     movie = get_object_or_404(Movie, pk=pk)
-    if request.method == "POST": # Если нажали кнопку подтверждения
+    if request.method == "POST": # усли нажали кнопку подтверждения
         movie.delete()
         return redirect('movie_list')
     return render(request, 'movies/movie_confirm_delete.html', {'movie': movie})
 
-# Создание сеанса
+# создание сеанса
 def screening_create(request):
     if not request.user.is_superuser: return redirect('movie_list')
 
@@ -278,7 +280,7 @@ def screening_create(request):
     movie_id = request.GET.get('movie_id')
     initial_data = {}
     if movie_id:
-        initial_data['movie'] = movie_id # Предзаполняем поле movie
+        initial_data['movie'] = movie_id # предзаполняем поле movie
 
     if request.method == "POST":
         form = ScreeningForm(request.POST)
@@ -291,7 +293,6 @@ def screening_create(request):
             )
             return redirect('movie_list')
     else:
-        # Передаем initial_data в форму
         form = ScreeningForm(initial=initial_data)
 
     return render(request, 'movies/screening_form.html', {'form': form, 'title': 'Добавить сеанс'})
@@ -320,9 +321,10 @@ def screening_update(request, pk):
 
     return render(request, 'movies/screening_form.html', {'form': form, 'title': 'Изменить сеанс'})
 
-# Удаление сеанса
+# удаление сеанса
 def screening_delete(request, pk):
-    if not request.user.is_superuser: return redirect('movie_list')
+    if not request.user.is_superuser:
+        return redirect('movie_list')
     try:
         sc = Screening.objects.get(id=pk)
         sc.delete()
@@ -406,6 +408,7 @@ def my_tickets(request):
         'tickets': tickets,
         'total_sum': total_sum # Передаем сумму в шаблон
     })
+
 # отмена брони (удаление билета)
 @log_this
 @login_required

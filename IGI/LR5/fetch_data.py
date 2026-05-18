@@ -3,7 +3,7 @@ import django
 import requests
 from datetime import datetime
 
-# найти  настройки проекта cinema_project и включи все инструменты Django
+# найти  настройки проекта cinema_project и все инструменты Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cinema_project.settings')
 django.setup()
 
@@ -14,14 +14,14 @@ def fetch_movies():
     url = f'https://api.themoviedb.org/3/movie/popular?api_key={api_key}&language=ru-RU&page=1'
     default_genre, _ = Genre.objects.get_or_create(name="Популярное")
 
-    print("Запрашиваю данные из TMDB...")
+    print("Запрашивать данные ...")
 
     try:
         response = requests.get(url)
         movies_list = response.json().get('results', [])
 
         for item in movies_list[:12]:
-            movie_id = item['id'] # нужен ID для запроса актеров
+            movie_id = item['id'] #  ID для запроса актеров
 
             # обработка даты
             raw_date = item.get('release_date')

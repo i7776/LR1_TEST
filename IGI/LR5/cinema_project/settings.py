@@ -74,7 +74,6 @@ WSGI_APPLICATION = 'cinema_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# DATABASE_URL — это переменная, которую мы укажем в настройках Render
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3'),
@@ -137,7 +136,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': 'cinema_debug.log', # Файл в корне проекта
+            'filename': 'cinema_debug.log',
             'encoding': 'utf-8',
         },
     },
