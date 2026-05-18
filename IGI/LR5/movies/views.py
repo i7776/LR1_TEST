@@ -1,29 +1,43 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Movie, AboutCompany, News, FAQ, ContactInfo, Vacancy, Review, PromoCode, ClientProfile, Screening, Ticket
+from .models import Movie, AboutCompany, News, FAQ, ContactInfo, Vacancy, Review, PromoCode, ClientProfile, Screening, Ticket, Employee
 import requests
 from .forms import ReviewForm, ExtendedUserCreationForm, MovieForm, ScreeningForm, TicketForm
 import logging
 from django.contrib.auth import login
 from datetime import date
-import datetime
 import calendar
 from django.utils import timezone
 import numpy as np
 from django.http import Http404
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import messages
+import matplotlib.pyplot as plt
+import io
+import urllib, base64
 logger = logging.getLogger('django')
 
 def log_this(func):
     def wrapper(request, *args, **kwargs):
-        user = request.user if request.user.is_authenticated else "Аноним"
+        if request.user.is_authenticated:
+            user = request.user.username
+        else:
+            user = "Аноним"
         logger.info(f"ПОЛЬЗОВАТЕЛЬ: {user} | ВЫЗВАЛ ФУНКЦИЮ: {func.__name__}")
         return func(request, *args, **kwargs)
     return wrapper
 
+def is_staff_or_admin(user):
+    if not user.is_authenticated:
+        return False
+    return user.is_superuser or Employee.objects.filter(user=user).exists()
+
 @log_this
 def movie_list(request):
     movies = Movie.objects.all()
+
+    stats = None
+    genre_data = None
+    graph = None
 
     query = request.GET.get('q', '')
     sort_by = request.GET.get('sort')
@@ -40,51 +54,79 @@ def movie_list(request):
     else:
         movies_list = list(movies)
 
-    ratings = [float(m.rating) for m in movies_list]
-    stats = {
-        'total_count': len(movies_list),
-        'average_rating': 0,
-        'median_rating': 0,
-        'mode_rating': 0,
-    }
+    if is_staff_or_admin(request.user):
+        ratings = [float(m.rating) for m in movies_list]
+        stats = {
+            'total_count': len(movies_list),
+            'average_rating': 0,
+            'median_rating': 0,
+            'mode_rating': 0,
+        }
 
-    if ratings:
-        stats['average_rating'] = np.mean(ratings)
-        stats['median_rating'] = np.median(ratings)
+        if ratings:
+            stats['average_rating'] = np.mean(ratings)
+            stats['median_rating'] = np.median(ratings)
 
-        vals, counts = np.unique(ratings, return_counts=True)
-        index = np.argmax(counts)
-        stats['mode_rating'] = vals[index]
+            vals, counts = np.unique(ratings, return_counts=True)
+            index = np.argmax(counts)
+            stats['mode_rating'] = vals[index]
 
-    raw_genre_data = {}
-    for m in movies_list:
-        name = m.genre.name
-        raw_genre_data[name] = raw_genre_data.get(name, 0) + 1
+        raw_genre_data = {}
+        for m in movies_list:
+            name = m.genre.name
+            raw_genre_data[name] = raw_genre_data.get(name, 0) + 1
 
-    # превращаем в список словарей, чтобы было удобно выводить
-    genre_data = []
-    for name, count in raw_genre_data.items():
-        genre_data.append({
-            'name': name,
-            'count': count,
-            'bar_height': count * 8 + 10
-        })
+        # превращаем в список словарей, чтобы было удобно выводить
+        genre_data = []
+        for name, count in raw_genre_data.items():
+            genre_data.append({
+                'name': name,
+                'count': count,
+                'bar_height': count * 8 + 10
+            })
 
-    now = datetime.datetime.now()
+        graph = get_graph()
+
+    now = timezone.localtime(timezone.now())
     cal = calendar.HTMLCalendar(calendar.MONDAY).formatmonth(now.year, now.month)
 
     context = {
         'movies': movies_list,
+        'is_staff': is_staff_or_admin(request.user),
         'stats': stats,
         'query': query,
         'genre_data': genre_data,
         'current_time_local': now,
-        'current_time_utc': datetime.datetime.utcnow(),
+        'current_time_utc': timezone.now(),
         'user_timezone': timezone.get_current_timezone_name(),
         'calendar': cal,
+        'graph': graph,
     }
 
     return render(request, 'movies/index.html', context)
+
+
+def get_graph():
+    # Создаем буфер для картинки
+    buffer = io.BytesIO()
+    # Считаем жанры (простой код)
+    all_movies = Movie.objects.all()
+    genres = [m.genre.name for m in all_movies]
+    genre_counts = {g: genres.count(g) for g in set(genres)}
+
+    # Рисуем
+    plt.figure(figsize=(5, 3))
+    plt.bar(genre_counts.keys(), genre_counts.values(), color='orange')
+    plt.title('Фильмы по жанрам')
+
+    # Сохраняем в буфер
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    # Кодируем в строку
+    image_png = buffer.getvalue()
+    graph = base64.b64encode(image_png).decode('utf-8')
+    buffer.close()
+    return graph
 
 def about(request):
     info = AboutCompany.objects.first()

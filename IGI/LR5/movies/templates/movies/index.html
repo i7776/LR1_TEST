@@ -28,33 +28,25 @@
     </form>
 </div>
 
-<div class="info-card">
-    <p>📊 <strong>Статистика кинотеатра (NumPy):</strong></p>
-    <ul>
-        <li>Всего фильмов: {{ stats.total_count }}</li>
-        <li>Средний рейтинг: {{ stats.average_rating|floatformat:1 }} ⭐</li>
+{% if is_staff %}
+    <div class="info-card">
+        <p>📊 <strong>Статистика кинотеатра (NumPy):</strong></p>
+        <ul>
+            <li>Всего фильмов: {{ stats.total_count }}</li>
+            <li>Средний рейтинг: {{ stats.average_rating|floatformat:1 }} ⭐</li>
 
-        <li>Медиана рейтинга: {{ stats.median_rating|floatformat:1 }} ⭐</li>
-        <li>Самый частый рейтинг (мода): {{ stats.mode_rating|floatformat:1 }} ⭐</li>
-    </ul>
+            <li>Медиана рейтинга: {{ stats.median_rating|floatformat:1 }} ⭐</li>
+            <li>Самый частый рейтинг (мода): {{ stats.mode_rating|floatformat:1 }} ⭐</li>
+        </ul>
 
-    <hr>
+        <hr>
 
-
-    <h4>📈 Распределение фильмов по жанрам</h4>
-    <div style="display: flex; align-items: flex-end; gap: 15px; height: 160px; padding: 10px; background: #fff; border-radius: 8px;">
-        {% for item in genre_data %}
-        <div style="text-align: center;">
-            <div style="background: #e67e22; width: 40px; height: {{ item.bar_height }}px; border-radius: 4px 4px 0 0; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px;">
-                {{ item.count }}
-            </div>
-            <div style="font-size: 10px; margin-top: 5px; width: 50px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                {{ item.name }}
-            </div>
-        </div>
-        {% endfor %}
+        <h4>📊 График (Matplotlib):</h4>
+        {% if graph %}
+        <img src="data:image/png;base64,{{ graph }}" alt="Matplotlib Graph" style="width: 100%; max-width: 500px;">
+        {% endif %}
     </div>
-</div>
+{% endif %}
 
 
 {% for movie in movies %}
