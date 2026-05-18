@@ -79,10 +79,10 @@ DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3'),
         conn_max_age=600,
-        ssl_require=True # PostgreSQL на Render требует SSL
+        # SSL включается ТОЛЬКО если мы нашли переменную DATABASE_URL (т.е. мы на Render)
+        ssl_require=os.environ.get('DATABASE_URL') is not None
     )
 }
-
 
 ALLOWED_HOSTS = ['*']
 

@@ -1,13 +1,15 @@
 #!/bin/bash
 
-# 1. Применяем миграции (обновляем структуру базы)
-python manage.py migrate
+# 1. Миграции
+python manage.py migrate --noinput
 
-# 2. Выполняем очистку данных (удаляем старые/пустые записи)
-python data_cleaner.py
+# 2. ЗАГРУЗКА ДАННЫХ
+if [ -f "initial_data.json" ]; then
+    python manage.py loaddata initial_data.json
+fi
 
-# 3. Собираем статические файлы (картинки, CSS)
+# 4. Сборка статики
 python manage.py collectstatic --noinput
 
-# 4. Запускаем сервер через Gunicorn
+# 5. Запуск
 gunicorn cinema_project.wsgi:application --bind 0.0.0.0:8000
