@@ -51,3 +51,4 @@ class TicketForm(forms.Form):
         label="Номера мест (через запятую)",
         widget=forms.TextInput(attrs={'style': 'padding: 5px; width: 200px;', 'placeholder': 'Например: 12, 13'})
     )
+    promo_code = forms.CharField(label="Промокод", required=False, widget=forms.TextInput(attrs={'placeholder': 'Если есть'}))

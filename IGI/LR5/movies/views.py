@@ -115,9 +115,14 @@ def get_graph():
     genre_counts = {g: genres.count(g) for g in set(genres)}
 
     # рисуем
-    plt.figure(figsize=(5, 3))
+    plt.figure(figsize=(7, 4))
     plt.bar(genre_counts.keys(), genre_counts.values(), color='orange')
     plt.title('Фильмы по жанрам')
+    #  на 45 градусов
+    # ha='right' выравнивает текст по правому краю
+    plt.xticks(rotation=45, ha='right')
+    # раздвинет границы графика, чтобы подписи влезли
+    plt.tight_layout()
 
     # сохраняем в буфер
     plt.savefig(buffer, format='png')
@@ -338,54 +343,67 @@ def screening_delete(request, pk):
 def book_ticket(request, screening_id):
     screening = get_object_or_404(Screening, id=screening_id)
 
-    #  какие места уже заняты на этот сеанс
+    # список занятых мест
     taken_tickets = Ticket.objects.filter(screening=screening).values_list('seat_number', flat=True)
-    taken_seats = list(taken_tickets) # Список занятых мест [10, 15, 16]
+    taken_seats = list(taken_tickets)
 
-    # считаем, сколько всего мест в зале
     total_capacity = screening.hall.capacity
-    # генерируем список свободных мест
     free_seats = [i for i in range(1, total_capacity + 1) if i not in taken_seats]
 
     if request.method == 'POST':
         form = TicketForm(request.POST)
         if form.is_valid():
             seats_input = form.cleaned_data['seat_numbers']
+            code_text = form.cleaned_data.get('promo_code') # Получаем промокод из формы
 
+            # парсим номера мест
             try:
-                # разбиваем строку по запятым, убираем пробелы и превращаем в числа
                 requested_seats = [int(s.strip()) for s in seats_input.split(',')]
             except ValueError:
                 messages.error(request, "Ошибка формата! Вводите только числа через запятую.")
                 return redirect('book_ticket', screening_id=screening.id)
 
+            # проверяем места на валидность
             errors = []
             valid_seats = []
-
-            # проверяем каждое запрошенное место
             for seat in requested_seats:
                 if seat > total_capacity or seat < 1:
-                    errors.append(f"Места №{seat} нет в зале (всего {total_capacity} мест).")
+                    errors.append(f"Места №{seat} нет в зале.")
                 elif seat in taken_seats:
                     errors.append(f"Место №{seat} уже занято.")
                 else:
                     valid_seats.append(seat)
 
-            # если есть ошибки - выводим ошибки
             if errors:
                 for error in errors:
                     messages.error(request, error)
+            elif not valid_seats:
+                messages.error(request, "Вы не выбрали ни одного места.")
             else:
-                # если всё ок, бронируем все места
+                base_price = len(valid_seats) * screening.price
+                final_price = float(base_price)
+
+                # применяем промокод
+                if code_text:
+                    promo = PromoCode.objects.filter(code=code_text, is_active=True).first()
+                    if promo:
+                        discount = promo.discount
+                        final_price = float(base_price) * (1 - discount / 100)
+                        messages.success(request, f"Применен промокод на {discount}%!")
+                    else:
+                        messages.error(request, "Промокод не найден или не активен.")
+                price_per_ticket = final_price / len(valid_seats)
+
+                # билеты в базе
                 for seat in valid_seats:
                     Ticket.objects.create(
                         screening=screening,
                         user=request.user,
-                        seat_number=seat
+                        seat_number=seat,
+                        paid_price=price_per_ticket
                     )
-                # подсчет итоговой суммы
-                total_price = len(valid_seats) * screening.price
-                messages.success(request, f"Успешно забронировано мест: {len(valid_seats)}. Итого к оплате: {total_price} BYN.")
+
+                messages.success(request, f"Успешно забронировано мест: {len(valid_seats)}. Итого к оплате: {final_price:.2f} BYN.")
                 return redirect('my_tickets')
     else:
         form = TicketForm()
@@ -393,8 +411,8 @@ def book_ticket(request, screening_id):
     return render(request, 'movies/book_ticket.html', {
         'screening': screening,
         'form': form,
-        'free_seats': free_seats, # Передаем свободные места в шаблон
-        'taken_seats': taken_seats # И занятые тоже
+        'free_seats': free_seats,
+        'taken_seats': taken_seats
     })
 
 # личный кабинет пользователя (список билетов)
@@ -402,8 +420,7 @@ def book_ticket(request, screening_id):
 @login_required
 def my_tickets(request):
     tickets = Ticket.objects.filter(user=request.user)
-    total_sum = sum(t.screening.price for t in tickets)
-
+    total_sum = sum(t.paid_price for t in tickets)
     return render(request, 'movies/my_tickets.html', {
         'tickets': tickets,
         'total_sum': total_sum # Передаем сумму в шаблон

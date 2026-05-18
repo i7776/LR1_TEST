@@ -55,6 +55,7 @@ class Ticket(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Покупатель")
     seat_number = models.IntegerField(verbose_name="Номер места")
     buy_date = models.DateTimeField(auto_now_add=True)
+    paid_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена оплаты", default=0)
 
     def __str__(self):
         return f"Билет на {self.screening.movie.title} (Место: {self.seat_number})"

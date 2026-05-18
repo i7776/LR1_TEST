@@ -55,7 +55,17 @@
     <p><strong>Год:</strong> {{ movie.data }} | <strong>Страна:</strong> {{ movie.country }}</p>
     <p><strong>Жанр:</strong> {{ movie.genre.name }}</p>
     <p class="rating">⭐ Рейтинг: {{ movie.rating }}</p>
-    <p>{{ movie.description|truncatewords:30 }}</p>
+    <div class="movie-description" style="margin-bottom: 15px;">
+        <details>
+            <summary style="cursor: pointer; color: #2980b9; font-weight: bold; outline: none;">
+                {{ movie.description|truncatewords:20 }}
+                <span style="font-size: 0.9em; font-weight: normal; color: #7f8c8d;">(развернуть...)</span>
+            </summary>
+            <p style="margin-top: 10px; padding: 10px; border-left: 4px solid #f39c12; background: #fffdf5; color: #34495e; line-height: 1.6;">
+                {{ movie.description }}
+            </p>
+        </details>
+    </div>
 
     {% if user.is_superuser %}
     <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;">
