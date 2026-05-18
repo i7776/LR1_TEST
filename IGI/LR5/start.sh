@@ -1,15 +1,16 @@
 #!/bin/bash
+set -e # Остановить скрипт при любой ошибке
 
-# 1. Миграции
+echo "--- Начинаю миграции ---"
 python manage.py migrate --noinput
 
-# 2. ЗАГРУЗКА ДАННЫХ
-if [ -f "initial_data.json" ]; then
-    python manage.py loaddata initial_data.json
-fi
-
-# 4. Сборка статики
+echo "--- Собираю статику ---"
 python manage.py collectstatic --noinput
 
-# 5. Запуск
-gunicorn cinema_project.wsgi:application --bind 0.0.0.0:8000
+echo "--- Пытаюсь загрузить данные из JSON ---"
+if [ -f "initial_data.json" ]; then
+    python manage.py loaddata initial_data.json || echo "Предупреждение: данные не загружены, но продолжаем..."
+fi
+
+echo "--- Запускаю Gunicorn ---"
+exec gunicorn cinema_project.wsgi:application --bind 0.0.0.0:8000
