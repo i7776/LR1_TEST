@@ -120,8 +120,7 @@
     <h3>🕒 Время и Календарь</h3>
     <p>Ваша таймзона: <strong>{{ user_timezone }}</strong></p>
     <p>Локальное время: <strong>{{ current_time_local|date:"d/m/Y H:i" }}</strong></p>
-    <p>Время UTC: <strong>{{ current_time_utc|date:"d/m/Y H:i" }}</strong></p>
-
+    <p>Время UTC: <strong>{{ current_time_utc }}</strong></p>
     <div class="calendar-table">
         {{ calendar|safe }}
     </div>

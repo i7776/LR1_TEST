@@ -928,3 +928,32 @@ Watching for file changes with StatReloader
 "GET /vacancies/ HTTP/1.1" 200 3187
 "GET /reviews/ HTTP/1.1" 200 5492
 "GET /promos/ HTTP/1.1" 200 3338
+Watching for file changes with StatReloader
+D:\projects\453504_MASALOVA_16\IGI\LR5\cinema_project\settings.py changed, reloading.
+Watching for file changes with StatReloader
+D:\projects\453504_MASALOVA_16\IGI\LR5\cinema_project\settings.py changed, reloading.
+Watching for file changes with StatReloader
+D:\projects\453504_MASALOVA_16\IGI\LR5\cinema_project\settings.py changed, reloading.
+Watching for file changes with StatReloader
+D:\projects\453504_MASALOVA_16\IGI\LR5\cinema_project\settings.py changed, reloading.
+Watching for file changes with StatReloader
+ПОЛЬЗОВАТЕЛЬ: lolita | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 89034
+D:\projects\453504_MASALOVA_16\IGI\LR5\movies\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\projects\453504_MASALOVA_16\IGI\LR5\movies\views.py changed, reloading.
+Watching for file changes with StatReloader
+ПОЛЬЗОВАТЕЛЬ: lolita | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 89010
+ПОЛЬЗОВАТЕЛЬ: lolita | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 89010
+D:\projects\453504_MASALOVA_16\IGI\LR5\movies\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\projects\453504_MASALOVA_16\IGI\LR5\movies\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\projects\453504_MASALOVA_16\IGI\LR5\movies\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\projects\453504_MASALOVA_16\IGI\LR5\movies\views.py changed, reloading.
+Watching for file changes with StatReloader
+ПОЛЬЗОВАТЕЛЬ: lolita | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 89029

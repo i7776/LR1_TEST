@@ -89,7 +89,7 @@ def movie_list(request):
 
     now = timezone.localtime(timezone.now())
     cal = calendar.HTMLCalendar(calendar.MONDAY).formatmonth(now.year, now.month)
-
+    utc_now = timezone.now().strftime("%d/%m/%Y %H:%M")
     context = {
         'movies': movies_list,
         'is_staff': is_staff_or_admin(request.user),
@@ -97,7 +97,7 @@ def movie_list(request):
         'query': query,
         'genre_data': genre_data,
         'current_time_local': now,
-        'current_time_utc': timezone.now(),
+        'current_time_utc': utc_now,
         'user_timezone': timezone.get_current_timezone_name(),
         'calendar': cal,
         'graph': graph,
