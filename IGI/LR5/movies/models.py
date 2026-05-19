@@ -76,8 +76,6 @@ def validate_employee_age(value):
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     position = models.CharField(max_length=100, verbose_name="Должность")
-
-    # Подключаем наши функции к полям
     birth_date = models.DateField(validators=[validate_employee_age], verbose_name="Дата рождения", null=True)
     phone = models.CharField(max_length=20, validators=[validate_phone_number], verbose_name="Телефон", null=True)
 
