@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import messages
 import matplotlib.pyplot as plt
 import io
-import urllib, base64
+import base64
 logger = logging.getLogger('django')
 
 def log_this(func):
@@ -177,8 +177,13 @@ def vacancies(request):
 
 def reviews(request):
     if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect('login')
+
         form = ReviewForm(request.POST)
         if form.is_valid():
+            review = form.save(commit=False)
+            review.name = request.user.username
             form.save() # cохраняем отзыв в бд
             return redirect('reviews') # перезагружаем страницу
 

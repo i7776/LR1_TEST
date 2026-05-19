@@ -957,3 +957,19 @@ D:\projects\453504_MASALOVA_16\IGI\LR5\movies\views.py changed, reloading.
 Watching for file changes with StatReloader
 ПОЛЬЗОВАТЕЛЬ: lolita | ВЫЗВАЛ ФУНКЦИЮ: movie_list
 "GET / HTTP/1.1" 200 89029
+Watching for file changes with StatReloader
+ПОЛЬЗОВАТЕЛЬ: lolita | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 89057
+"GET /reviews/ HTTP/1.1" 200 5301
+"GET /reviews/ HTTP/1.1" 200 5295
+"POST /accounts/logout/ HTTP/1.1" 302 0
+ПОЛЬЗОВАТЕЛЬ: Аноним | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 44847
+"GET /reviews/ HTTP/1.1" 200 3789
+"GET /accounts/login/ HTTP/1.1" 200 2336
+"POST /accounts/login/ HTTP/1.1" 302 0
+ПОЛЬЗОВАТЕЛЬ: kate | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 48221
+"GET /reviews/ HTTP/1.1" 200 5291
+"GET /reviews/ HTTP/1.1" 200 5291
+"GET /reviews/ HTTP/1.1" 200 5274

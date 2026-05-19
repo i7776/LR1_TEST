@@ -5,27 +5,31 @@
 {% block content %}
 <h1>💬 Отзывы наших зрителей</h1>
 
-<!-- Блок с формой добавления -->
-<div class="movie-card" style="background: #fffaf0; border: 1px dashed #e67e22;">
-  <h3>Оставить свой отзыв</h3>
-  <form method="post">
-    {% csrf_token %}
+{% if user.is_authenticated %}
+  <div class="movie-card" style="background: #fffaf0; border: 1px dashed #e67e22;">
+    <h3>Оставить свой отзыв как {{ user.username }}</h3>
+    <form method="post">
+      {% csrf_token %}
 
-    <p>Ваше имя:</p>
-    {{ form.name }}
 
-    <p>Ваша оценка (1-5):</p>
-    {{ form.rating }}
+      <p>Ваша оценка (1-5):</p>
+      {{ form.rating }}
 
-    <p>Ваш отзыв:</p>
-    {{ form.text }}
+      <p>Ваш отзыв:</p>
+      {{ form.text }}
 
-    <br>
-    <button type="submit" style="background: #e67e22; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">
-      Отправить отзыв
-    </button>
-  </form>
+      <br>
+      <button type="submit" style="background: #e67e22; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+        Отправить отзыв
+      </button>
+    </form>
+  </div>
+{% else %}
+<div class="info-card" style="text-align: center;">
+  <p>Только зарегистрированные пользователи могут оставлять отзывы.</p>
+  <a href="{% url 'login' %}" class="btn">Войти на сайт</a>
 </div>
+{% endif %}
 
 <hr>
 
