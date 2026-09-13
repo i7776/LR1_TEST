@@ -1,0 +1,46 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Новости - CinemaLab{% endblock %}
+
+{% block content %}
+<section id="news-section">
+  <h1>📰 Новости и события кинотеатра</h1>
+
+  {% for article in news %}
+  <article class="movie-card" data-article-id="{{ article.id }}">
+    <header>
+      <h2>{{ article.title }}</h2>
+      <p>
+        📅 Дата публикации:
+        <time datetime="{{ article.published_date|date:'Y-m-d' }}">
+          {{ article.published_date|date:"d.m.Y" }}
+        </time>
+      </p>
+    </header>
+
+    <!-- Иллюстрация новости -->
+    {% if article.image %}
+    <figure>
+      <img src="{{ article.image.url }}" alt="{{ article.title }}" width="100%">
+      <figcaption>Иллюстрация к новости: {{ article.title }}</figcaption>
+    </figure>
+    {% endif %}
+
+    <!-- краткое описание (1 предложение) -->
+    <p><strong>{{ article.short_description }}</strong></p>
+
+    <!-- читать далее -->
+    <details>
+      <summary >
+        📖 Читать статью полностью...
+      </summary>
+      <div>
+        {{ article.content|linebreaks }}
+      </div>
+    </details>
+  </article>
+  {% empty %}
+  <p>Новостей пока нет. Загляните позже!</p>
+  {% endfor %}
+</section>
+{% endblock %}

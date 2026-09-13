@@ -1,0 +1,53 @@
+from django import forms
+from .models import Review, ClientProfile, Movie, Hall
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'text'] # поля, которые мы дадим заполнить юзеру
+        widgets = {
+            'text': forms.Textarea(attrs={'style': 'width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;', 'rows': 4}),
+            'rating': forms.Select(attrs={'style': 'width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;'}),
+        }
+
+class ExtendedUserCreationForm(UserCreationForm):
+    first_name = forms.CharField(max_length=100, label="Имя")
+    last_name = forms.CharField(max_length=100, label="Фамилия")
+    birth_date = forms.DateField(
+        label="Дата рождения",
+        widget=forms.DateInput(attrs={'type': 'date'}) #  календарик
+    )
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = UserCreationForm.Meta.fields + ('first_name', 'last_name')
+
+class MovieForm(forms.ModelForm):
+    class Meta:
+        model = Movie
+        fields = ['title', 'description', 'data', 'duration', 'budget', 'country', 'genre', 'rating', 'poster', 'actors']
+        # делаем поле даты  из календаря
+        widgets = {
+            'data': forms.DateInput(attrs={'type': 'date', 'style': 'width: 100%; padding: 8px;'}),
+        }
+
+class ScreeningForm(forms.Form):
+    # ModelChoiceField выпадающий список из существующих записей в базе
+    movie = forms.ModelChoiceField(queryset=Movie.objects.all(), label="Выберите фильм")
+    hall = forms.ModelChoiceField(queryset=Hall.objects.all(), label="Выберите зал")
+    time = forms.DateTimeField(
+        label="Дата и время",
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local', 'style': 'width: 100%; padding: 8px;'})
+    )
+    price = forms.DecimalField(max_digits=10, decimal_places=2, label="Цена билета (BYN)")
+
+class TicketForm(forms.Form):
+    # строка, чтобы можно было ввести "10, 11, 12"
+    seat_numbers = forms.CharField(
+        label="Номера мест (через запятую)",
+        widget=forms.TextInput(attrs={'style': 'padding: 5px; width: 200px;', 'placeholder': 'Например: 12, 13'})
+    )
+    promo_code = forms.CharField(label="Промокод", required=False, widget=forms.TextInput(attrs={'placeholder': 'Если есть'}))

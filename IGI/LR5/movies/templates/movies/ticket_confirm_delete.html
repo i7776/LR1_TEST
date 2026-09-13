@@ -1,0 +1,14 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+<div class="movie-card" >
+  <h2>Отменить бронирование?</h2>
+  <p>Вы уверены, что хотите отменить билет на фильм <strong>{{ ticket.screening.movie.title }}</strong>?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">
+      Да, отменить
+    </button>
+    <a href="{% url 'my_tickets' %}" >Назад</a>
+  </form>
+</div>
+{% endblock %}

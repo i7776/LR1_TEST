@@ -1,0 +1,147 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Оплата заказа - CinemaLab{% endblock %}
+
+{% block content %}
+<section id="payment-page" class="movie-card">
+  <h1>💳 Оформление и оплата заказа</h1>
+  <p>Сумма к оплате: <strong>{{ total_price }} BYN</strong></p>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- контактные данные -->
+    <fieldset>
+      <legend><strong>1. Контактные данные покупателя</strong></legend>
+
+      <p>
+        <label for="fullname">Ваше ФИО (обязательно):</label><br>
+        <input type="text" id="fullname" name="fullname" required minlength="3" placeholder="Иванов Иван Иванович" >
+      </p>
+
+      <p>
+        <label for="email">Электронная почта (для отправки PDF-билетов):</label><br>
+        <input type="email" id="email" name="email" required placeholder="user@example.com">
+      </p>
+
+      <p>
+        <label for="phone">Номер телефона (Беларусь):</label><br>
+        <!-- Валидация по маске номера через pattern -->
+        <input type="tel" id="phone" name="phone" required pattern="^\+375\d{9}$" placeholder="+375291234567" title="Формат: +375XXXXXXXXX (9 цифр после +375)" >
+      </p>
+
+      <p>
+        <label for="city-choice">Ваш город :</label><br>
+        <input list="cities" id="city-choice" name="city" placeholder="Начните вводить город...">
+        <!-- тег для всплывающих подссказок-->
+        <datalist id="cities">
+          <option value="Минск">
+          <option value="Брест">
+          <option value="Гродно">
+          <option value="Гомель">
+          <option value="Витебск">
+          <option value="Могилев">
+        </datalist>
+      </p>
+    </fieldset>
+
+    <br>
+
+    <!-- параметры заказа -->
+    <fieldset>
+      <legend><strong>2. Настройки билета и дополнительные опции</strong></legend>
+
+      <p>
+        <label for="delivery">Способ получения билетов :</label><br>
+        <select id="delivery" name="delivery">
+          <option value="email" selected> Электронный билет на Email</option>
+          <option value="sms"> SMS-сообщение с кодом</option>
+          <option value="cashier"> Получить распечатанный билет на кассе</option>
+        </select>
+      </p>
+
+      <p>
+        <label for="visit-date">Желаемая дата получения чека :</label><br>
+        <input type="date" id="visit-date" name="visit_date">
+      </p>
+
+      <p>
+        <label for="ticket-color">Цвет оформления PDF-билета :</label><br>
+        <input type="color" id="ticket-color" name="ticket_color" value="#f39c12">
+      </p>
+
+      <p>
+        <label for="tips">Чаевые кинотеатру ( от 0 до 10 BYN):</label><br>
+        <input type="range" id="tips" name="tips" min="0" max="10" step="1" value="0" oninput="this.nextElementSibling.value = this.value + ' BYN'">
+        <output>0 BYN</output>
+      </p>
+
+      <p>
+        <label for="student-doc">Студенческий билет для скидки :</label><br>
+        <input type="file" id="student-doc" name="student_doc" accept="image/*,.pdf">
+      </p>
+
+      <p>
+        <label for="comment">Пожелания или комментарий к заказу :</label><br>
+        <textarea id="comment" name="comment" rows="3" spellcheck="true" placeholder="Например: места для людей на колясках..." style="width: 100%; max-width: 400px;"></textarea>
+      </p>
+    </fieldset>
+
+    <br>
+
+    <!-- блок промокода -->
+    <fieldset >
+      <legend><strong>🏷️ Есть промокод или купон на скидку?</strong></legend>
+      <p>
+        <label for="promo">Введите промокод:</label><br>
+        <input type="text" id="promo" name="promo_code" >
+        <small >Скидка применится автоматически к общей сумме заказа.</small>
+      </p>
+    </fieldset>
+
+    <br>
+
+    <!-- выбор способа оплаты -->
+    <fieldset>
+      <legend><strong>3. Способ оплаты </strong></legend>
+
+      <p>
+        <input type="radio" id="pay-card" name="payment_method" value="card" checked>
+        <label for="pay-card"> Банковская карта онлайн (Visa, MasterCard, Белкарт)</label>
+      </p>
+
+      <p>
+        <input type="radio" id="pay-erip" name="payment_method" value="erip">
+        <label for="pay-erip"> Система «Расчет» (ЕРИП)</label>
+      </p>
+
+      <p>
+        <input type="radio" id="pay-cash" name="payment_method" value="cash">
+        <label for="pay-cash"> Оплата наличными на кассе кинотеатра</label>
+      </p>
+    </fieldset>
+
+    <br>
+
+    <!-- согласие с правилами -->
+    <p>
+      <input type="checkbox" id="agree" name="agree" required>
+      <label for="agree">
+        Я подтверждаю заказ и соглашаюсь с <a href="/privacy/" target="_blank">Политикой конфиденциальности</a> (обязательно)
+      </label>
+    </p>
+
+    <!-- копки управления -->
+    <p>
+      <button type="submit" >
+        Подтвердить и оплатить
+      </button>
+
+      <button type="reset" >
+        Очистить форму
+      </button>
+    </p>
+
+  </form>
+</section>
+{% endblock %}

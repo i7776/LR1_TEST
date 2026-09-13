@@ -1,0 +1,23 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Вакансии - CinemaLab{% endblock %}
+
+{% block content %}
+<h1>💼 Работа у нас</h1>
+<p>Мы всегда ищем талантливых людей в нашу команду!</p>
+
+{% for job in vacancies %}
+<div class="movie-card">
+  <h3 >{{ job.title }}</h3>
+  <p>{{ job.description|linebreaks }}</p>
+  {% if job.salary %}
+  <p><strong>Зарплата:</strong> {{ job.salary }}</p>
+  {% endif %}
+  <button>
+    Откликнуться
+  </button>
+</div>
+{% empty %}
+<p>На данный момент открытых вакансий нет. заходите позже!</p>
+{% endfor %}
+{% endblock %}

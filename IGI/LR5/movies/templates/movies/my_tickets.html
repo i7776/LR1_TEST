@@ -1,0 +1,57 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Мои билеты - CinemaLab{% endblock %}
+
+{% block content %}
+<div class="movie-card" style="padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+  <h1 style="border-bottom: 2px solid #f39c12; padding-bottom: 10px; color: #2c3e50;">🎟️ Ваши забронированные билеты</h1>
+
+  {% if tickets %}
+  <!-- Блок итоговой суммы -->
+  <div style="background: #e8f5e9; padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 5px solid #2e7d32;">
+    <span style="color: #666; font-size: 1em;">Общая стоимость всех заказов:</span><br>
+    <strong style="color: #2e7d32; font-size: 1.8em;">{{ total_sum|floatformat:2 }} BYN</strong>
+  </div>
+
+  <div style="overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse; background: white;">
+      <thead>
+      <tr style="background: #f8f9fa; color: #7f8c8d; text-transform: uppercase; font-size: 0.85em;">
+        <th style="padding: 15px; border-bottom: 2px solid #eee; text-align: left;">Фильм</th>
+        <th style="padding: 15px; border-bottom: 2px solid #eee; text-align: left;">Дата сеанса</th>
+        <th style="padding: 15px; border-bottom: 2px solid #eee; text-align: left;">Место</th>
+        <th style="padding: 15px; border-bottom: 2px solid #eee; text-align: left;">Оплачено</th>
+        <th style="padding: 15px; border-bottom: 2px solid #eee; text-align: center;">Действие</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for t in tickets %}
+      <tr class="ticket-row">
+        <td style="padding: 15px; border-bottom: 1px solid #eee;"><strong>{{ t.screening.movie.title }}</strong></td>
+        <td style="padding: 15px; border-bottom: 1px solid #eee;">{{ t.screening.time|date:"d.m.Y H:i" }}</td>
+        <td style="padding: 15px; border-bottom: 1px solid #eee;">Зал №{{ t.screening.hall.number }}, <span style="background: #eee; padding: 2px 6px; border-radius: 3px;">Место {{ t.seat_number }}</span></td>
+        <!-- ВАЖНО: берем paid_price -->
+        <td style="padding: 15px; border-bottom: 1px solid #eee; color: #2e7d32; font-weight: bold;">
+          {{ t.paid_price|floatformat:2 }} BYN
+        </td>
+        <td style="padding: 15px; border-bottom: 1px solid #eee; text-align: center;">
+          <a href="{% url 'cancel_ticket' t.id %}" class="btn-cancel" style="color: #e74c3c; text-decoration: none; font-size: 0.9em; border: 1px solid #e74c3c; padding: 5px 10px; border-radius: 5px;">Отменить</a>
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div style="text-align: center; padding: 40px;">
+    <p style="font-size: 1.2em; color: #95a5a6;">У вас пока нет забронированных билетов.</p>
+    <a href="/" style="display: inline-block; margin-top: 15px; background: #3498db; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Найти интересный фильм</a>
+  </div>
+  {% endif %}
+</div>
+
+<style>
+  .ticket-row:hover { background-color: #fff9f0; }
+  .btn-cancel:hover { background: #e74c3c; color: white !important; }
+</style>
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}О компании - CinemaLab{% endblock %}
+
+{% block content %}
+<h1>🏢 О нашем кинотеатре</h1>
+
+{% if weather %}
+<div class="info-card">
+  <p>☁️ <strong>Погода в {{ weather.city }}:</strong> {{ weather.temp }}°C, {{ weather.desc }}</p>
+</div>
+{% endif %}
+
+<div class="movie-card">
+  <figure>
+    {% if info.logo %}
+    <img src="{{ info.logo.url }}" alt="Логотип CinemaLab" width="150">
+    {% endif %}
+    <figcaption>Официальный логотип CinemaLab</figcaption>
+  </figure>
+  <h2>{{ info.title }}</h2>
+
+  <p>{{ info.content }}</p>
+
+  <hr>
+  <h3>🎭 Наш девиз</h3>
+  <p>
+    Мы дарим зрителям уют,<br>
+    Здесь фильмы лучшие идут,<br>
+    Наш кино<wbr>театр ждет всегда,<br>
+    Сквозь расстоянья и года!
+  </p>
+
+  <hr>
+  <h3>💬 Слово основателя</h3>
+  <blockquote >
+    «Мы стремимся сделать так, чтобы каждый поход в кино был праздником. Наш главный девиз — <q>Кино доступно каждому</q>».
+    <br><small>— <cite>А. П. Осауленко</cite>, генеральный директор</small>
+  </blockquote>
+
+  <hr>
+  <h3>📜 Наша история</h3>
+  <p>
+    Кинотеатр открыл свои двери <time datetime="2024-09-01">1 сентября 2024 года</time>.
+    Мы стали <mark>первым цифровым кинотеатром</mark> с объемным звуком в нашем районе.
+  </p>
+  <p>{{ info.history|linebreaks }}</p>
+
+  <hr>
+  <h3>📑 Реквизиты</h3>
+  <p>
+    Юридическое лицо: <abbr title="Общество с ограниченной ответственностью">ООО</abbr> «СинемаЛаб Групп» в <abbr title="Республика Беларусь">РБ</abbr>.
+  </p>
+  <p>{{ info.requisites|linebreaks }}</p>
+
+  <p>
+    📥 <strong>Официальный документ:</strong>
+    <a href="/media/certificate.pdf" download style="color: #2980b9; font-weight: bold;">
+      Скачать свидетельство о регистрации (PDF)
+    </a>
+  </p>
+
+  <table border="1" data-document="certificate" data-status="verified" >
+    <thead>
+    <tr>
+      <th id="main-title" colspan="2" >
+        ЕДИНЫЙ РЕЕСТР<br>
+        СВИДЕТЕЛЬСТВО О ВНЕСЕНИИ СВЕДЕНИЙ
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th id="city-date" >Место и дата выдачи:</th>
+      <td headers="main-title city-date" style="padding: 8px;">г. Минск, <time datetime="2017-01-17">17 января 2017 года</time></td>
+    </tr>
+    <tr>
+      <th id="company" >Наименование организации:</th>
+      <td headers="main-title company" style="padding: 8px;">Общество с ограниченной ответственностью «СинемаЛаб Технологии»</td>
+    </tr>
+    <tr>
+      <th id="inn">ИНН / УНП:</th>
+      <td headers="main-title inn" >123456789</td>
+    </tr>
+    <tr>
+      <th id="reg-num">Реестровый номер:</th>
+      <td headers="main-title reg-num" style="padding: 8px;"><strong>№ 6769</strong></td>
+    </tr>
+    <tr>
+      <th id="director" >Руководитель ассоциации:</th>
+      <td headers="main-title director" style="padding: 8px;">Директор Масалова Л. Д. (Подпись и печать действительны)</td>
+    </tr>
+    <tr>
+      <th id="contacts" colspan="2" >
+        Ассоциация «Объединение кинопрокатчиков»<br>
+        Адрес:  г. Минск, ул. Гикало, 9 | Тел: +375 (29) 855-45-51 | E-mail: support@cinemalab.by
+      </th>
+    </tr>
+    </tbody>
+  </table>
+
+  <hr>
+  <h3>🎥 Видеоэкскурсия по залам</h3>
+  <video controls width="100%" >
+    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+    Ваш браузер не поддерживает видео.
+  </video>
+
+  <hr>
+  <h3>🎵 Фирменное аудио</h3>
+  <audio controls >
+    <source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
+
+</div>
+{% endblock %}

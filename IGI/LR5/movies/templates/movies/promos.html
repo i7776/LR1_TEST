@@ -1,0 +1,27 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Промокоды - CinemaLab{% endblock %}
+
+{% block content %}
+<h1>🎟️ Промокоды и купоны</h1>
+
+{% for item in promos %}
+{% if item.is_active %}
+<!-- карточка для действующих кодов -->
+<div class="movie-card" >
+  <h2>{{ item.code }}</h2>
+  <p><strong>Скидка:</strong> {{ item.discount }}%</p>
+  <p>Статус: <strong>Действует</strong></p>
+</div>
+{% else %}
+<!-- карточка для архивных кодов -->
+<div class="movie-card">
+  <h2>{{ item.code }}</h2>
+  <p><strong>Скидка была:</strong> {{ item.discount }}%</p>
+  <p>Статус: <strong>В архиве (истек)</strong></p>
+</div>
+{% endif %}
+{% empty %}
+<p>Промокодов пока нет.</p>
+{% endfor %}
+{% endblock %}
