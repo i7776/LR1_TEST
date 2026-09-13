@@ -3,35 +3,91 @@
 {% block title %}Контакты - CinemaLab{% endblock %}
 
 {% block content %}
-<h1>📞 Наши сотрудники</h1>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-  {% for person in staff %}
-  <div class="movie-card" style="display: flex; align-items: center; gap: 20px;">
-    <!-- Фото сотрудника -->
-    {% if person.photo %}
-    <img src="{{ person.photo.url }}" alt="{{ person.name }}"
-         style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #e67e22;">
-    {% else %}
-    <div style="width: 100px; height: 100px; border-radius: 50%; background: #ccc; display: flex; align-items: center; justify-content: center;">👤</div>
-    {% endif %}
+<section id="contacts-page" itemscope itemtype="http://schema.org/Organization" lang="ru" dir="ltr">
 
-    <!-- Информация -->
-    <div>
-      <h3 style="margin: 0;">{{ person.name }}</h3>
-      <p style="color: #e67e22; font-weight: bold; margin: 5px 0;">{{ person.role }}</p>
-      <p style="margin: 0; font-size: 0.9em;">📧 {{ person.email }}</p>
-      <p style="margin: 0; font-size: 0.9em;">📱 {{ person.phone }}</p>
-    </div>
+  <h1 id="main-contact-title" >
+    📞 Контакты кинотеатра <span translate="no">CinemaLab</span>
+  </h1>
+
+  <!-- информация о кинотеатре -->
+  <div class="info-card">
+    <h2>Центральный офис</h2>
+
+    <p><strong>Организация:</strong> <span itemprop="name" translate="no">CinemaLab</span></p>
+
+    <!-- адрес с микроразметкой -->
+    <p itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+      📍 <strong>Адрес:</strong>
+      <span itemprop="addressLocality">г. Минск</span>,
+      <span itemprop="streetAddress">ул. Гикало, д. 9</span>
+    </p>
+
+    <!-- ссылка для звонка -->
+    <p>
+      📱 <strong>Телефон кассы:</strong>
+      <a href="tel:+375291234567" itemprop="telephone" accesskey="c" title="Горячая клавиша: Alt + Shift + C">+375 (29) 123-45-67</a>
+    </p>
+
+    <!--ссылка для почты -->
+    <p>
+      ✉️ <strong>Служба поддержки:</strong>
+      <a href="mailto:support@cinemalab.by" itemprop="email">support@cinemalab.by</a>
+    </p>
+
+    <p>🕒 <strong>Режим работы:</strong> Ежедневно с <time datetime="09:00">09:00</time> до <time datetime="23:00">23:00</time></p>
   </div>
-  {% empty %}
-  <p>Список сотрудников скоро появится.</p>
-  {% endfor %}
-</div>
 
-<div class="movie-card" style="margin-top: 30px; background: #333; color: white;">
-  <h3>📍 Где мы находимся?</h3>
-  <p>Адрес: г. Минск, ул. Гикало, д. 9 (здание БГУИР №4)</p>
-  <p>Режим работы: ежедневно с 09:00 до 00:00</p>
-</div>
+  <hr>
+
+  <!-- блок сотркдников -->
+  <h2>👥 Наша команда</h2>
+
+  <div>
+    {% for item in staff %}
+    <article class="movie-card" >
+
+      <!-- фото сотрудника -->
+      <figure>
+        {% if item.photo %}
+        <img src="{{ item.photo.url }}" alt="Фото сотрудника {{ item.employee.user.get_full_name }}" width="120" >
+        {% endif %}
+        <figcaption><strong>{{ item.employee.user.get_full_name|default:item.employee.user.username }}</strong></figcaption>
+      </figure>
+
+      <!-- список определений -->
+      <dl>
+        <dt><strong>Должность:</strong></dt>
+        <dd>{{ item.employee.position }}</dd>
+
+        <dt ><strong>Email:</strong></dt>
+        <dd><a href="mailto:{{ item.email }}">{{ item.email }}</a></dd>
+
+        <dt ><strong>Телефон:</strong></dt>
+        <dd><a href="tel:{{ item.phone }}">{{ item.phone }}</a></dd>
+      </dl>
+    </article>
+    {% empty %}
+    <p>Список сотрудников временно недоступен.</p>
+    {% endfor %}
+  </div>
+
+  <hr>
+
+  <!-- интеравтивная карта -->
+  <h2>🗺️ Мы на карте</h2>
+  <div class="info-card">
+    <iframe
+            title="Интерактивная карта проезда к кинотеатру"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2350.2882772596486!2d27.592534576856524!3d53.913317772459425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbcfa0f4e2424b%3A0x6b8bc228efb0451a!2z0YPQuy4g0JPQuNC60LDQu9C-IDksINCc0LjQvdGB0LosINCc0LjQvdGB0LrQsNGPINC-0LHQu9Cw0YHRgtGMIN83MA!5e0!3m2!1sru!2sby!4v1700000000000"
+            width="100%"
+            height="300"
+            allowfullscreen=""
+            loading="lazy">
+    </iframe>
+  </div>
+
+  <hr>
+
+</section>
 {% endblock %}

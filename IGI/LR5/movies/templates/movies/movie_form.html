@@ -5,10 +5,10 @@
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+    <button type="submit" >
       ✅ Сохранить изменения
     </button>
-    <a href="/" style="margin-left: 10px; color: #666;">Отмена</a>
+    <a href="/" >Отмена</a>
   </form>
 </div>
 {% endblock %}

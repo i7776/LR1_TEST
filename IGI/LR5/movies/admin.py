@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Genre, Actor, Movie, Hall, Screening, Employee, AboutCompany, FAQ, News, Review, Vacancy, PromoCode, PrivacyPolicy, ContactInfo, Ticket
+from .models import Genre, Actor, Movie, Hall, Screening, Employee, AboutCompany, FAQ, News, Review, Vacancy, PromoCode, PrivacyPolicy, ContactInfo, Ticket, Banner, Partner
 
 admin.site.register(Genre)
 admin.site.register(Actor)
@@ -17,4 +17,7 @@ admin.site.register(Vacancy)
 admin.site.register(PromoCode)
 admin.site.register(ContactInfo)
 admin.site.register(PrivacyPolicy)
+admin.site.register(Banner)
+admin.site.register(Partner)
+
 

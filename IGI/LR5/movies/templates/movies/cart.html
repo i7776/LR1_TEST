@@ -1,0 +1,60 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Корзина заказа - CinemaLab{% endblock %}
+
+{% block content %}
+<section id="cart-page" class="movie-card">
+    <h1>🛒 Ваша корзина заказа</h1>
+
+    {% if cart_items %}
+    <table border="1" >
+        <thead>
+        <tr>
+            <th>Фильм и сеанс</th>
+            <th>Цена за шт.</th>
+            <th>Количество</th>
+            <th>Сумма</th>
+            <th>Удалить</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <td>
+                <strong>{{ item.screening.movie.title }}</strong><br>
+                <small>🕒 {{ item.screening.time|date:"d.m.Y H:i" }} (Зал №{{ item.screening.hall.number }})</small>
+            </td>
+            <td style="padding: 10px;">{{ item.screening.price }} BYN</td>
+
+            <!-- + или -  -->
+            <td >
+                <a href="{% url 'cart_update_qty' item.screening.id 'decrease' %}" >-</a>
+                <span>{{ item.quantity }}</span>
+                <a href="{% url 'cart_update_qty' item.screening.id 'increase' %}">+</a>
+            </td>
+
+            <td ><strong>{{ item.item_total }} BYN</strong></td>
+
+            <!-- удалить -->
+            <td >
+                <a href="{% url 'cart_remove' item.screening.id %}" >❌</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- итого и оплатить -->
+    <div >
+        <h2>Итого к оплате: <span>{{ total_price }} BYN</span></h2>
+        <a href="{% url 'payment' %}" >
+            💳 Перейти к оплате
+        </a>
+    </div>
+
+    {% else %}
+    <p>Ваша корзина пуста.</p>
+    <p><a href="/">← Перейти в каталог к выбору фильмов</a></p>
+    {% endif %}
+</section>
+{% endblock %}

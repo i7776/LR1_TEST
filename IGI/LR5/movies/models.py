@@ -145,3 +145,16 @@ class ClientProfile(models.Model):
 
     def __str__(self):
         return f"Профиль: {self.user.username}"
+
+class Banner(models.Model):
+    title = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='banners/')
+    link = models.URLField(blank=True)
+
+class Partner(models.Model):
+    name = models.CharField(max_length=100)
+    logo = models.ImageField(upload_to='partners/')
+    website_url = models.URLField()
+
+    def __str__(self):
+        return self.name

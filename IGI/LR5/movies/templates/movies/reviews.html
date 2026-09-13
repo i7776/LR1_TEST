@@ -6,7 +6,7 @@
 <h1>💬 Отзывы наших зрителей</h1>
 
 {% if user.is_authenticated %}
-  <div class="movie-card" style="background: #fffaf0; border: 1px dashed #e67e22;">
+  <div class="movie-card" >
     <h3>Оставить свой отзыв как {{ user.username }}</h3>
     <form method="post">
       {% csrf_token %}
@@ -19,13 +19,13 @@
       {{ form.text }}
 
       <br>
-      <button type="submit" style="background: #e67e22; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+      <button type="submit">
         Отправить отзыв
       </button>
     </form>
   </div>
 {% else %}
-<div class="info-card" style="text-align: center;">
+<div class="info-card">
   <p>Только зарегистрированные пользователи могут оставлять отзывы.</p>
   <a href="{% url 'login' %}" class="btn">Войти на сайт</a>
 </div>
@@ -36,12 +36,12 @@
 <!-- Список существующих отзывов -->
 {% for review in reviews %}
 <div class="movie-card">
-  <div style="display: flex; justify-content: space-between;">
+  <div >
     <strong>{{ review.name }}</strong>
-    <span style="color: #e67e22;">Оценка: {{ review.rating }}/5 ⭐</span>
+    <span >Оценка: {{ review.rating }}/5 ⭐</span>
   </div>
-  <p style="margin-top: 10px;">{{ review.text|linebreaks }}</p>
-  <p style="text-align: right;"><small style="color: #999;">{{ review.created_date|date:"d.m.Y H:i" }}</small></p>
+  <p >{{ review.text|linebreaks }}</p>
+  <p ><small >{{ review.created_date|date:"d.m.Y H:i" }}</small></p>
 </div>
 {% empty %}
 <p>Отзывов пока нет. Будьте первым!</p>

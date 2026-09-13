@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Movie, AboutCompany, News, FAQ, ContactInfo, Vacancy, Review, PromoCode, ClientProfile, Screening, Ticket, Employee
+from .models import Movie, AboutCompany, News, FAQ, ContactInfo, Vacancy, Review, PromoCode, ClientProfile, Screening, Ticket, Employee, Banner, Partner
 import requests
 from .forms import ReviewForm, ExtendedUserCreationForm, MovieForm, ScreeningForm, TicketForm
 import logging
@@ -34,6 +34,8 @@ def is_staff_or_admin(user):
 @log_this
 def movie_list(request):
     movies = Movie.objects.all()
+    banners = Banner.objects.all()
+    partners = Partner.objects.all()
 
     stats = None
     genre_data = None
@@ -90,6 +92,7 @@ def movie_list(request):
     now = timezone.localtime(timezone.now())
     cal = calendar.HTMLCalendar(calendar.MONDAY).formatmonth(now.year, now.month)
     utc_now = timezone.now().strftime("%d/%m/%Y %H:%M")
+    latest_news = News.objects.order_by('-published_date').first()
     context = {
         'movies': movies_list,
         'is_staff': is_staff_or_admin(request.user),
@@ -101,6 +104,9 @@ def movie_list(request):
         'user_timezone': timezone.get_current_timezone_name(),
         'calendar': cal,
         'graph': graph,
+        'latest_news': latest_news,
+        'banners': banners,
+        'partners': partners,
     }
 
     return render(request, 'movies/index.html', context)
@@ -441,3 +447,109 @@ def cancel_ticket(request, ticket_id):
         ticket.delete()
         return redirect('my_tickets')
     return render(request, 'movies/ticket_confirm_delete.html', {'ticket': ticket})
+
+# страница отдельного фильма (детальная информация)
+def movie_detail(request, pk):
+    movie = get_object_or_404(Movie, pk=pk)
+    return render(request, 'movies/movie_detail.html', {'movie': movie})
+
+# добавление билета в корзину
+@login_required
+def add_to_cart(request, screening_id):
+    cart = request.session.get('cart', {})
+    screening_id_str = str(screening_id)
+
+    # увеличиваем количество
+    cart[screening_id_str] = cart.get(screening_id_str, 0) + 1
+    request.session['cart'] = cart
+    messages.success(request, "Билет добавлен в корзину!")
+    return redirect('cart_detail')
+
+# просмотр корзины
+@login_required
+def cart_detail(request):
+    cart = request.session.get('cart', {})
+    cart_items = []
+    total_price = 0
+
+    for screening_id_str, quantity in cart.items():
+        try:
+            screening = Screening.objects.get(id=int(screening_id_str))
+            item_total = screening.price * quantity
+            total_price += item_total
+            cart_items.append({
+                'screening': screening,
+                'quantity': quantity,
+                'item_total': item_total
+            })
+        except Screening.DoesNotExist:
+            continue
+
+    return render(request, 'movies/cart.html', {
+        'cart_items': cart_items,
+        'total_price': total_price
+    })
+
+# изменение количества (+ или -)
+def cart_update_qty(request, screening_id, action):
+    cart = request.session.get('cart', {})
+    screening_id_str = str(screening_id)
+
+    if screening_id_str in cart:
+        if action == 'increase':
+            cart[screening_id_str] += 1
+        elif action == 'decrease':
+            cart[screening_id_str] -= 1
+            if cart[screening_id_str] <= 0:
+                del cart[screening_id_str]
+
+    request.session['cart'] = cart
+    return redirect('cart_detail')
+
+# удаление из корзины
+def cart_remove(request, screening_id):
+    cart = request.session.get('cart', {})
+    screening_id_str = str(screening_id)
+
+    if screening_id_str in cart:
+        del cart[screening_id_str]
+        request.session['cart'] = cart
+        messages.success(request, "Товар удален из корзины.")
+
+    return redirect('cart_detail')
+
+# cтраница оформления и оплаты заказа
+@login_required
+def payment_view(request):
+    cart = request.session.get('cart', {})
+
+    # считаем базовую сумму корзины
+    total_price = 0
+    for screening_id_str, qty in cart.items():
+        try:
+            sc = Screening.objects.get(id=int(screening_id_str))
+            total_price += sc.price * qty
+        except Screening.DoesNotExist:
+            continue
+
+    # если нажали "Подтвердить и оплатить"
+    if request.method == 'POST':
+        promo_text = request.POST.get('promo_code', '').strip()
+        final_price = float(total_price)
+
+        # проверяем промокод в базе
+        if promo_text:
+            promo = PromoCode.objects.filter(code=promo_text, is_active=True).first()
+            if promo:
+                discount = promo.discount
+                final_price = final_price * (1 - discount / 100)
+                messages.success(request, f"Применен промокод на {discount}% скидки! Итого к оплате: {final_price:.2f} BYN.")
+            else:
+                messages.warning(request, "Введенный промокод не найден или устарел. Оплата проведена по полной стоимости.")
+
+        # очищаем корзину
+        request.session['cart'] = {}
+        messages.success(request, "Заказ успешно оплачен! Электронные билеты отправлены на ваш Email.")
+        return redirect('my_tickets')
+
+    return render(request, 'movies/payment.html', {'total_price': total_price})

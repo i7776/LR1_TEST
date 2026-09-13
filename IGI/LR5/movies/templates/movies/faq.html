@@ -1,17 +1,63 @@
 {% extends 'movies/base.html' %}
 
-{% block title %}FAQ - CinemaLab{% endblock %}
+{% block title %}FAQ и Словарь терминов - CinemaLab{% endblock %}
 
 {% block content %}
-<h1>❓ Часто задаваемые вопросы</h1>
+<h1 id="faq-heading" lang="ru" title="Раздел помощи и терминологии">❓ Часто задаваемые вопросы и Словарь</h1>
 
-{% for item in faqs %}
-<div class="movie-card">
-  <h3 style="color: #e67e22;">Q: {{ item.question }}</h3>
-  <p><strong>A:</strong> {{ item.answer }}</p>
-  <p style="text-align: right;"><small>Добавлено: {{ item.added_date|date:"d.m.Y" }}</small></p>
-</div>
-{% empty %}
-<p>Раздел в разработке. Скоро мы ответим на все ваши вопросы!</p>
-{% endfor %}
+<section id="faq-list">
+  <h2>Популярные вопросы</h2>
+
+  {% for item in faqs %}
+  <article class="movie-card" data-faq-id="{{ item.id }}">
+    <details>
+      <summary>
+        {{ item.question }}
+      </summary>
+      <p >{{ item.answer }}</p>
+
+      <!-- семантическая дата добавления вопроса -->
+      <p>
+        Добавлено на сайт: <time datetime="{{ item.added_date|date:'Y-m-d' }}">{{ item.added_date|date:"d.m.Y" }}</time>
+      </p>
+    </details>
+  </article>
+  {% empty %}
+  <p>Вопросов пока нет. Мы скоро наполним этот раздел!</p>
+  {% endfor %}
+</section>
+
+<hr>
+
+<section id="glossary">
+  <h2>📖 Словарь кинотерминов</h2>
+  <p>Основные понятия, которые помогут вам лучше ориентироваться в кинотеатре:</p>
+
+  <dl class="info-card">
+    <dt><dfn>IMAX</dfn> (Image Maximum)</dt>
+    <dd>Формат фильмов и кинотеатров с огромным экраном высокой четкости и мощным объемным звуком.</dd>
+
+    <dt ><dfn>Хронометраж</dfn></dt>
+    <dd>Точная продолжительность фильма от первого кадра до окончания финальных титров.</dd>
+
+    <dt><dfn>3D-кино</dfn></dt>
+    <dd>Технология показа, создающая иллюзию трехмерного объемного изображения с помощью специальных очков.</dd>
+  </dl>
+</section>
+
+<hr>
+
+<section id="tips" class="info-card">
+  <h2>💡 Полезные подсказки</h2>
+
+  <p>
+    Чтобы быстро найти нужный фильм на главной странице, нажмите комбинацию клавиш
+    <kbd>Ctrl</kbd> + <kbd>F</kbd> (или <kbd>Cmd</kbd> + <kbd>F</kbd> на Mac).
+  </p>
+
+  <p>
+    Пример ввода промокода на скидку в системе:
+    <code>CINEMA-2026</code>
+  </p>
+</section>
 {% endblock %}

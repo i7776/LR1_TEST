@@ -1,31 +1,46 @@
 {% extends 'movies/base.html' %}
 
-{% block title %}Новости 2026 - CinemaLab{% endblock %}
+{% block title %}Новости - CinemaLab{% endblock %}
 
 {% block content %}
-<h1>📰 Новости и события 2026</h1>
+<section id="news-section">
+  <h1>📰 Новости и события кинотеатра</h1>
 
-{% for article in news %}
-<div class="movie-card">
-  <div style="display: flex; justify-content: space-between; align-items: center;">
-    <h2>{{ article.title }}</h2>
-    <span style="background: #e67e22; color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8em;">
-            {{ article.published_date|date:"d.m.Y" }}
-        </span>
-  </div>
+  {% for article in news %}
+  <article class="movie-card" data-article-id="{{ article.id }}">
+    <header>
+      <h2>{{ article.title }}</h2>
+      <p>
+        📅 Дата публикации:
+        <time datetime="{{ article.published_date|date:'Y-m-d' }}">
+          {{ article.published_date|date:"d.m.Y" }}
+        </time>
+      </p>
+    </header>
 
-  {% if article.image %}
-  <div style="margin: 15px 0;">
-    <img src="{{ article.image.url }}" alt="{{ article.title }}" style="max-width: 100%; border-radius: 8px;">
-  </div>
-  {% endif %}
+    <!-- Иллюстрация новости -->
+    {% if article.image %}
+    <figure>
+      <img src="{{ article.image.url }}" alt="{{ article.title }}" width="100%">
+      <figcaption>Иллюстрация к новости: {{ article.title }}</figcaption>
+    </figure>
+    {% endif %}
 
-  <p style="font-size: 1.1em; color: #333;"><strong>{{ article.short_description }}</strong></p>
-  <div style="line-height: 1.6; color: #555;">
-    {{ article.content|linebreaks }}
-  </div>
-</div>
-{% empty %}
-<p>Новостей на 2026 год пока нет.</p>
-{% endfor %}
+    <!-- краткое описание (1 предложение) -->
+    <p><strong>{{ article.short_description }}</strong></p>
+
+    <!-- читать далее -->
+    <details>
+      <summary >
+        📖 Читать статью полностью...
+      </summary>
+      <div>
+        {{ article.content|linebreaks }}
+      </div>
+    </details>
+  </article>
+  {% empty %}
+  <p>Новостей пока нет. Загляните позже!</p>
+  {% endfor %}
+</section>
 {% endblock %}

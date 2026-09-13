@@ -1,0 +1,81 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}{{ movie.title }} - CinemaLab{% endblock %}
+
+{% block content %}
+<article class="movie-card" itemscope itemtype="http://schema.org/Movie">
+
+    <header>
+        <h1 itemprop="name">{{ movie.title }}</h1>
+        <p>
+            <strong>Страна:</strong> <span itemprop="countryOfOrigin">{{ movie.country }}</span> |
+            <strong>Год выпуска:</strong> <time datetime="{{ movie.data|date:'Y' }}">{{ movie.data|date:"Y" }}</time> |
+            <strong>Жанр:</strong> <span itemprop="genre">{{ movie.genre.name }}</span>
+        </p>
+        <p class="rating">⭐ Рейтинг фильма: <strong itemprop="aggregateRating">{{ movie.rating }} / 10</strong></p>
+    </header>
+
+    <!-- Постер фильма -->
+    {% if movie.poster %}
+    <figure>
+        <img src="{{ movie.poster.url }}" alt="Постер к фильму {{ movie.title }}" width="250" itemprop="image">
+        <figcaption>Официальный постер к фильму «{{ movie.title }}»</figcaption>
+    </figure>
+    {% endif %}
+
+    <!-- Описание сюжета -->
+    <section>
+        <h3>📖 Описание сюжета</h3>
+        <p itemprop="description">{{ movie.description }}</p>
+        <p><strong>Длительность:</strong> {{ movie.duration }} минут</p>
+    </section>
+
+    <!-- Список актеров в виде нумерованного списка  -->
+    <section>
+        <h3> В главных ролях</h3>
+        <ol>
+            {% for actor in movie.actors.all %}
+            <li><span itemprop="actor">{{ actor.name }}</span></li>
+            {% empty %}
+            <li>Информация об актерском составе уточняется.</li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <hr>
+
+    <!-- сеансы и добавление в козину -->
+    <section>
+        <h3>🎟️ Выберите сеанс и добавьте в корзину</h3>
+
+        {% for s in movie.screening_set.all %}
+        <div >
+            <div>
+                <strong>🕒 {{ s.time|date:"d.m.Y H:i" }}</strong> — Зал №{{ s.hall.number }}
+                (Цена: <strong>{{ s.price }} BYN</strong>)
+            </div>
+
+            {% if user.is_authenticated %}
+            <form action="{% url 'add_to_cart' s.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" >
+                    🛒 Добавить в корзину
+                </button>
+            </form>
+            {% else %}
+            <span >
+    <a href="{% url 'login' %}" >Войдите</a>, чтобы добавить в корзину
+  </span>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>К сожалению, на этот фильм пока нет активных сеансов.</p>
+        {% endfor %}
+    </section>
+
+    <p >
+        <a href="/">← Вернуться к каталогу фильмов</a>
+    </p>
+
+</article>
+{% endblock %}

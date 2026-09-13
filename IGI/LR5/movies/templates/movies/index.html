@@ -51,11 +51,11 @@
 
 {% for movie in movies %}
 <div class="movie-card">
-    <h2>{{ movie.title }}</h2>
+    <h2><a href="{% url 'movie_detail' movie.id %}" >{{ movie.title }}</a></h2>
     <p><strong>Год:</strong> {{ movie.data }} | <strong>Страна:</strong> {{ movie.country }}</p>
     <p><strong>Жанр:</strong> {{ movie.genre.name }}</p>
     <p class="rating">⭐ Рейтинг: {{ movie.rating }}</p>
-    <div class="movie-description" style="margin-bottom: 15px;">
+    <div class="movie-description" >
         <details>
             <summary style="cursor: pointer; color: #2980b9; font-weight: bold; outline: none;">
                 {{ movie.description|truncatewords:20 }}
@@ -116,7 +116,26 @@
 <p>Фильмов пока нет.</p>
 {% endfor %}
 
-<div class="info-card" style="margin-top: 40px; background: #fdfdfd; border: 1px solid #eee;">
+<div class="info-card">
+    <h3>🆕 Последняя новость кинотеатра</h3>
+
+    {% if latest_news %}
+    <div style="padding: 10px;">
+        <h4>{{ latest_news.title }}</h4>
+        <p >
+            Опубликовано: {{ latest_news.published_date|date:"d.m.Y H:i" }}
+        </p>
+        <p>{{ latest_news.short_description }}</p>
+        <a href="{% url 'news' %}" >
+            Читать все новости →
+        </a>
+    </div>
+    {% else %}
+    <p >Новостей пока нет.</p>
+    {% endif %}
+</div>
+
+<div class="info-card" >
     <h3>🕒 Время и Календарь</h3>
     <p>Ваша таймзона: <strong>{{ user_timezone }}</strong></p>
     <p>Локальное время: <strong>{{ current_time_local|date:"d/m/Y H:i" }}</strong></p>

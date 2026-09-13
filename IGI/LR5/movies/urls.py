@@ -21,4 +21,10 @@ urlpatterns = [
     re_path(r'^book/(?P<screening_id>\d+)/$', views.book_ticket, name='book_ticket'),
     re_path(r'^my-tickets/$', views.my_tickets, name='my_tickets'),
     re_path(r'^ticket/(?P<ticket_id>\d+)/cancel/$', views.cancel_ticket, name='cancel_ticket'),
+    re_path(r'^movie/(?P<pk>\d+)/$', views.movie_detail, name='movie_detail'),
+    re_path(r'^cart/$', views.cart_detail, name='cart_detail'),
+    re_path(r'^cart/add/(?P<screening_id>\d+)/$', views.add_to_cart, name='add_to_cart'),
+    re_path(r'^cart/update/(?P<screening_id>\d+)/(?P<action>increase|decrease)/$', views.cart_update_qty, name='cart_update_qty'),
+    re_path(r'^cart/remove/(?P<screening_id>\d+)/$', views.cart_remove, name='cart_remove'),
+    re_path(r'^payment/$', views.payment_view, name='payment'),
 ]
