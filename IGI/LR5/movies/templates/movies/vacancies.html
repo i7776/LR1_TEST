@@ -8,8 +8,8 @@
 
 {% for job in vacancies %}
 <div class="movie-card">
-  <h3 >{{ job.title }}</h3>
-  <p>{{ job.description|linebreaks }}</p>
+  <h2>{{ job.title }}</h2>
+  <div>{{ job.description|linebreaks }}</div>
   {% if job.salary %}
   <p><strong>Зарплата:</strong> {{ job.salary }}</p>
   {% endif %}

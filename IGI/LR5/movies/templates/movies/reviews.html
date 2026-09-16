@@ -40,7 +40,7 @@
     <strong>{{ review.name }}</strong>
     <span >Оценка: {{ review.rating }}/5 ⭐</span>
   </div>
-  <p >{{ review.text|linebreaks }}</p>
+  {{ review.text|linebreaks }}
   <p ><small >{{ review.created_date|date:"d.m.Y H:i" }}</small></p>
 </div>
 {% empty %}

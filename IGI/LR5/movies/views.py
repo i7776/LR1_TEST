@@ -524,33 +524,49 @@ def cart_remove(request, screening_id):
 def payment_view(request):
     cart = request.session.get('cart', {})
 
-    # считаем базовую сумму корзины
+    # Считаем базовую сумму корзины
     total_price = 0
+    cart_screenings = []
     for screening_id_str, qty in cart.items():
         try:
             sc = Screening.objects.get(id=int(screening_id_str))
             total_price += sc.price * qty
+            cart_screenings.append({'screening': sc, 'qty': qty})
         except Screening.DoesNotExist:
             continue
 
-    # если нажали "Подтвердить и оплатить"
+    # Если нажали "Подтвердить и оплатить"
     if request.method == 'POST':
         promo_text = request.POST.get('promo_code', '').strip()
         final_price = float(total_price)
 
-        # проверяем промокод в базе
+        # Проверяем промокод
         if promo_text:
             promo = PromoCode.objects.filter(code=promo_text, is_active=True).first()
             if promo:
-                discount = promo.discount
-                final_price = final_price * (1 - discount / 100)
-                messages.success(request, f"Применен промокод на {discount}% скидки! Итого к оплате: {final_price:.2f} BYN.")
-            else:
-                messages.warning(request, "Введенный промокод не найден или устарел. Оплата проведена по полной стоимости.")
+                final_price = final_price * (1 - promo.discount / 100)
 
-        # очищаем корзину
+        import random
+        for item in cart_screenings:
+            sc = item['screening']
+            qty = item['qty']
+            price_per_one = sc.price
+            if promo_text and promo:
+                price_per_one = float(sc.price) * (1 - promo.discount / 100)
+
+            for _ in range(qty):
+                # Выбираем случайное свободное место от 1 до вместимости зала
+                random_seat = random.randint(1, sc.hall.capacity)
+                Ticket.objects.create(
+                    screening=sc,
+                    user=request.user,
+                    seat_number=random_seat,
+                    paid_price=price_per_one
+                )
+
+        # Очищаем корзину после успешной оплаты
         request.session['cart'] = {}
-        messages.success(request, "Заказ успешно оплачен! Электронные билеты отправлены на ваш Email.")
+        messages.success(request, f"🎉 Заказ успешно оплачен на сумму {final_price:.2f} BYN! Билеты появились в личном кабинете.")
         return redirect('my_tickets')
 
     return render(request, 'movies/payment.html', {'total_price': total_price})

@@ -31,14 +31,14 @@
 
     <!-- Описание сюжета -->
     <section>
-        <h3>📖 Описание сюжета</h3>
+        <h2>📖 Описание сюжета</h2>
         <p itemprop="description">{{ movie.description }}</p>
         <p><strong>Длительность:</strong> {{ movie.duration }} минут</p>
     </section>
 
     <!-- список актеров в виде нумерованного списка  -->
     <section>
-        <h3> В главных ролях</h3>
+        <h2> В главных ролях</h2>
         <ol>
             {% for actor in movie.actors.all %}
             <li><span itemprop="actor">{{ actor.name }}</span></li>
@@ -52,7 +52,7 @@
 
     <!-- сеансы и добавление в козину -->
     <section>
-        <h3>🎟️ Выберите сеанс и добавьте в корзину</h3>
+        <h2>🎟️ Выберите сеанс и добавьте в корзину</h2>
 
         {% for s in movie.screening_set.all %}
         <div >

@@ -16,7 +16,7 @@
 
     <p><strong>Организация:</strong> <span itemprop="name" translate="no">CinemaLab</span></p>
 
-    <!-- адрес с микроразметкой -->
+    <!-- адрес  -->
     <p itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
       📍 <strong>Адрес:</strong>
       <span itemprop="addressLocality">г. Минск</span>,
@@ -52,7 +52,7 @@
   <div>
     {% for item in staff %}
     <article class="movie-card" >
-
+      <h3>{{ item.employee.user.get_full_name|default:item.employee.user.username }}</h3>
       <!-- фото сотрудника -->
       <figure>
         {% if item.photo %}
@@ -70,7 +70,7 @@
         <dd><a href="mailto:{{ item.email }}">{{ item.email }}</a></dd>
 
         <dt ><strong>Телефон:</strong></dt>
-        <dd><a href="tel:{{ item.phone }}">{{ item.phone }}</a></dd>
+        <dd><a href="tel:{{ item.phone|cut:' '|cut:'('|cut:')' }}">{{ item.phone }}</a></dd>
       </dl>
     </article>
     {% empty %}
@@ -86,7 +86,7 @@
     <iframe
             title="Интерактивная карта проезда к кинотеатру"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2350.2882772596486!2d27.592534576856524!3d53.913317772459425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbcfa0f4e2424b%3A0x6b8bc228efb0451a!2z0YPQuy4g0JPQuNC60LDQu9C-IDksINCc0LjQvdGB0LosINCc0LjQvdGB0LrQsNGPINC-0LHQu9Cw0YHRgtGMIN83MA!5e0!3m2!1sru!2sby!4v1700000000000"
-            width="100%"
+            width="600"
             height="300"
             allowfullscreen=""
             loading="lazy">
