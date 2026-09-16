@@ -90,7 +90,8 @@ def movie_list(request):
         graph = get_graph()
 
     now = timezone.localtime(timezone.now())
-    cal = calendar.HTMLCalendar(calendar.MONDAY).formatmonth(now.year, now.month)
+    raw_cal = calendar.HTMLCalendar(calendar.MONDAY).formatmonth(now.year, now.month)
+    cal = raw_cal.replace('border="0" cellpadding="0" cellspacing="0" ', '')
     utc_now = timezone.now().strftime("%d/%m/%Y %H:%M")
     latest_news = News.objects.order_by('-published_date').first()
     context = {

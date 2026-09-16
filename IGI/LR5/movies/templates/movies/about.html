@@ -44,14 +44,14 @@
     Кинотеатр открыл свои двери <time datetime="2024-09-01">1 сентября 2024 года</time>.
     Мы стали <mark>первым цифровым кинотеатром</mark> с объемным звуком в нашем районе.
   </p>
-  <p>{{ info.history|linebreaks }}</p>
+  {{ info.history|linebreaks }}
 
   <hr>
   <h3>📑 Реквизиты</h3>
   <p>
     Юридическое лицо: <abbr title="Общество с ограниченной ответственностью">ООО</abbr> «СинемаЛаб Групп» в <abbr title="Республика Беларусь">РБ</abbr>.
   </p>
-  <p>{{ info.requisites|linebreaks }}</p>
+  {{ info.requisites|linebreaks }}
 
   <p>
     📥 <strong>Официальный документ:</strong>
@@ -60,7 +60,7 @@
     </a>
   </p>
 
-  <table border="1" data-document="certificate" data-status="verified" >
+  <table data-document="certificate" data-status="verified" border="1" >
     <thead>
     <tr>
       <th id="main-title" colspan="2" >
@@ -101,7 +101,7 @@
 
   <hr>
   <h3>🎥 Видеоэкскурсия по залам</h3>
-  <video controls width="100%" autoplay muted loop >
+  <video controls autoplay muted loop >
     <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
     Ваш браузер не поддерживает видео.
   </video>

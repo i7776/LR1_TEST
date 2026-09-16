@@ -21,7 +21,7 @@
     <!-- Иллюстрация новости -->
     {% if article.image %}
     <figure>
-      <img src="{{ article.image.url }}" alt="{{ article.title }}" width="100%">
+      <img src="{{ article.image.url }}" alt="{{ article.title }}">
       <figcaption>Иллюстрация к новости: {{ article.title }}</figcaption>
     </figure>
     {% endif %}
