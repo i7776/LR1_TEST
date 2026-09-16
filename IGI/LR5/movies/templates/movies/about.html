@@ -11,7 +11,7 @@
 </div>
 {% endif %}
 
-<div class="movie-card">
+<div class="movie-card" tabindex="0">
   <figure>
     {% if info.logo %}
     <img src="{{ info.logo.url }}" alt="Логотип CinemaLab" width="150">
@@ -55,7 +55,7 @@
 
   <p>
     📥 <strong>Официальный документ:</strong>
-    <a href="/media/certificate.pdf" download style="color: #2980b9; font-weight: bold;">
+    <a href="/media/certificate.pdf" download >
       Скачать свидетельство о регистрации (PDF)
     </a>
   </p>
@@ -72,11 +72,11 @@
     <tbody>
     <tr>
       <th id="city-date" >Место и дата выдачи:</th>
-      <td headers="main-title city-date" style="padding: 8px;">г. Минск, <time datetime="2017-01-17">17 января 2017 года</time></td>
+      <td headers="main-title city-date" >г. Минск, <time datetime="2017-01-17">17 января 2017 года</time></td>
     </tr>
     <tr>
       <th id="company" >Наименование организации:</th>
-      <td headers="main-title company" style="padding: 8px;">Общество с ограниченной ответственностью «СинемаЛаб Технологии»</td>
+      <td headers="main-title company" >Общество с ограниченной ответственностью «СинемаЛаб Технологии»</td>
     </tr>
     <tr>
       <th id="inn">ИНН / УНП:</th>
@@ -84,11 +84,11 @@
     </tr>
     <tr>
       <th id="reg-num">Реестровый номер:</th>
-      <td headers="main-title reg-num" style="padding: 8px;"><strong>№ 6769</strong></td>
+      <td headers="main-title reg-num" ><strong>№ 6769</strong></td>
     </tr>
     <tr>
       <th id="director" >Руководитель ассоциации:</th>
-      <td headers="main-title director" style="padding: 8px;">Директор Масалова Л. Д. (Подпись и печать действительны)</td>
+      <td headers="main-title director">Директор Масалова Л. Д. (Подпись и печать действительны)</td>
     </tr>
     <tr>
       <th id="contacts" colspan="2" >
@@ -101,7 +101,7 @@
 
   <hr>
   <h3>🎥 Видеоэкскурсия по залам</h3>
-  <video controls width="100%" >
+  <video controls width="100%" autoplay muted loop >
     <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
     Ваш браузер не поддерживает видео.
   </video>

@@ -1490,3 +1490,57 @@ Watching for file changes with StatReloader
 "GET /vacancies/ HTTP/1.1" 200 4080
 "GET /reviews/ HTTP/1.1" 200 5375
 "GET /promos/ HTTP/1.1" 200 3919
+Watching for file changes with StatReloader
+ПОЛЬЗОВАТЕЛЬ: kate | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 49782
+"GET /contacts/ HTTP/1.1" 200 8127
+Watching for file changes with StatReloader
+ПОЛЬЗОВАТЕЛЬ: kate | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 49782
+"POST /accounts/logout/ HTTP/1.1" 302 0
+ПОЛЬЗОВАТЕЛЬ: Аноним | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 46678
+"GET /about/ HTTP/1.1" 200 9847
+"GET /news/ HTTP/1.1" 200 7388
+"GET /faq/ HTTP/1.1" 200 7161
+"GET /contacts/ HTTP/1.1" 200 7813
+"GET /vacancies/ HTTP/1.1" 200 3766
+Watching for file changes with StatReloader
+ПОЛЬЗОВАТЕЛЬ: Аноним | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 46678
+"GET /about/ HTTP/1.1" 200 9867
+Watching for file changes with StatReloader
+ПОЛЬЗОВАТЕЛЬ: Аноним | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 46678
+"GET /about/ HTTP/1.1" 200 9782
+Watching for file changes with StatReloader
+ПОЛЬЗОВАТЕЛЬ: Аноним | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 46678
+ПОЛЬЗОВАТЕЛЬ: Аноним | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 46678
+ПОЛЬЗОВАТЕЛЬ: Аноним | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 45857
+"GET /vacancies/ HTTP/1.1" 200 2945
+"GET /reviews/ HTTP/1.1" 200 3499
+"GET /promos/ HTTP/1.1" 200 2784
+"GET /faq/ HTTP/1.1" 200 6340
+"GET /about/ HTTP/1.1" 200 8847
+"GET /about/ HTTP/1.1" 200 8975
+"GET /about/ HTTP/1.1" 200 8975
+ПОЛЬЗОВАТЕЛЬ: Аноним | ВЫЗВАЛ ФУНКЦИЮ: register
+"GET /register/ HTTP/1.1" 200 2142
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 9380
+"GET /accounts/login/ HTTP/1.1" 200 2814
+"POST /accounts/login/ HTTP/1.1" 302 0
+ПОЛЬЗОВАТЕЛЬ: kate | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 48961
+ПОЛЬЗОВАТЕЛЬ: kate | ВЫЗВАЛ ФУНКЦИЮ: book_ticket
+"GET /book/3/ HTTP/1.1" 200 4251
+"GET /about/ HTTP/1.1" 200 9315
+Watching for file changes with StatReloader
+ПОЛЬЗОВАТЕЛЬ: kate | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 48961
+"GET /about/ HTTP/1.1" 200 9289
+"GET /contacts/ HTTP/1.1" 200 7709
+"GET /contacts/ HTTP/1.1" 200 7709

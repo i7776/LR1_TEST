@@ -15,10 +15,16 @@
         <p class="rating">⭐ Рейтинг фильма: <strong itemprop="aggregateRating">{{ movie.rating }} / 10</strong></p>
     </header>
 
-    <!-- Постер фильма -->
+    <!-- постер фильма -->
     {% if movie.poster %}
     <figure>
-        <img src="{{ movie.poster.url }}" alt="Постер к фильму {{ movie.title }}" width="250" itemprop="image">
+        <picture>
+            <!-- источник для больших экранов мониторов (шириной от 768px) -->
+            <source media="(min-width: 768px)" srcset="{{ movie.poster.url }}">
+
+            <!-- базовое изображение для мобильных телефонов -->
+            <img src="{{ movie.poster.url }}" alt="Постер к фильму {{ movie.title }}" width="250" itemprop="image" loading="lazy">
+        </picture>
         <figcaption>Официальный постер к фильму «{{ movie.title }}»</figcaption>
     </figure>
     {% endif %}
@@ -30,7 +36,7 @@
         <p><strong>Длительность:</strong> {{ movie.duration }} минут</p>
     </section>
 
-    <!-- Список актеров в виде нумерованного списка  -->
+    <!-- список актеров в виде нумерованного списка  -->
     <section>
         <h3> В главных ролях</h3>
         <ol>

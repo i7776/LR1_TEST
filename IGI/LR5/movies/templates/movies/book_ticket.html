@@ -9,16 +9,16 @@
     <hr>
 
     <!-- статус мест -->
-    <div style="background: #f4f4f4; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-        <h4 style="margin-top: 0;">Информация о местах:</h4>
+    <div >
+        <h4 >Информация о местах:</h4>
         <p><strong>Занятые места:</strong>
             {% if taken_seats %}
-            <span style="color: red;">{{ taken_seats|join:", " }}</span>
+            <span >{{ taken_seats|join:", " }}</span>
             {% else %}
-            <span style="color: green;">Все места свободны!</span>
+            <span>Все места свободны!</span>
             {% endif %}
         </p>
-        <p style="font-size: 0.9em; color: #666;">
+        <p>
             Свободные места: {{ free_seats|join:", " }}
         </p>
     </div>
@@ -26,7 +26,7 @@
     <!-- сообщения об ошибках или успехе -->
     {% if messages %}
     {% for message in messages %}
-    <p style="color: {% if message.tags == 'error' %}red{% else %}green{% endif %}; font-weight: bold;">
+    <p>
         {{ message }}
     </p>
     {% endfor %}

@@ -8,7 +8,7 @@
   <p>Сумма к оплате: <strong>{{ total_price }} BYN</strong></p>
 
   <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+    {% csrf_token %}А
 
     <!-- контактные данные -->
     <fieldset>
@@ -83,7 +83,7 @@
 
       <p>
         <label for="comment">Пожелания или комментарий к заказу :</label><br>
-        <textarea id="comment" name="comment" rows="3" spellcheck="true" placeholder="Например: места для людей на колясках..." style="width: 100%; max-width: 400px;"></textarea>
+        <textarea id="comment" name="comment" rows="3" spellcheck="true" placeholder="Например: места для людей на колясках..." ></textarea>
       </p>
     </fieldset>
 
@@ -131,7 +131,7 @@
       </label>
     </p>
 
-    <!-- копки управления -->
+    <!-- кнопки управления -->
     <p>
       <button type="submit" >
         Подтвердить и оплатить
