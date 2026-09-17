@@ -61,28 +61,28 @@
       </p>
 
       <p>
-        <label for="visit-date">Желаемая дата получения чека :</label><br>
+        <label for="visit-date">Желаемая дата получения чека:</label><br>
         <input type="date" id="visit-date" name="visit_date">
       </p>
 
       <p>
-        <label for="ticket-color">Цвет оформления PDF-билета :</label><br>
+        <label for="ticket-color">Цвет оформления PDF-билета:</label><br>
         <input type="color" id="ticket-color" name="ticket_color" value="#f39c12">
       </p>
 
       <p>
-        <label for="tips">Чаевые кинотеатру ( от 0 до 10 BYN):</label><br>
+        <label for="tips">Чаевые кинотеатру (от 0 до 10 BYN):</label><br>
         <input type="range" id="tips" name="tips" min="0" max="10" step="1" value="0" oninput="this.nextElementSibling.value = this.value + ' BYN'">
         <output>0 BYN</output>
       </p>
 
       <p>
-        <label for="student-doc">Студенческий билет для скидки :</label><br>
+        <label for="student-doc">Студенческий билет для скидки:</label><br>
         <input type="file" id="student-doc" name="student_doc" accept="image/*,.pdf">
       </p>
 
       <p>
-        <label for="comment">Пожелания или комментарий к заказу :</label><br>
+        <label for="comment">Пожелания или комментарий к заказу:</label><br>
         <textarea id="comment" name="comment" rows="3" spellcheck="true" placeholder="Например: места для людей на колясках..." ></textarea>
       </p>
     </fieldset>

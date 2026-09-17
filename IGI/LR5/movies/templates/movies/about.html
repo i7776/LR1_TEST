@@ -100,9 +100,36 @@
   </table>
 
   <hr>
+  <h3>💻 Технический паспорт оборудования (Листинг)</h3>
+  <p>Конфигурация цифровых залов кинотеатра CinemaLab:</p>
+
+    <pre><code>{
+    "cinema_name": "CinemaLab",
+    "screens": 3,
+    "sound_system": "Dolby Atmos 7.1",
+    "projection": "Laser 4K High Dynamic Range",
+    "certification": "ISO-9001-2026"
+  }</code></pre>
+
+  <hr>
+  <h3>📸 Фотогалерея кинотеатра (Адаптивное фото)</h3>
+  <figure>
+    <picture>
+      <!-- экран меньше 650px уютные кресла с попкорном -->
+      <source media="(max-width: 650px)" srcset="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=500&q=80">
+
+      <!-- широкий экран панорама большого зала IMAX -->
+      <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=900&q=80" alt="Интерьер залов CinemaLab" width="100%" loading="lazy">
+    </picture>
+    <figcaption>
+      <small>Адаптивная иллюстрация залов CinemaLab (при изменении ширины окна фотография зала меняется на мобильную версию)</small>
+    </figcaption>
+  </figure>
+
+  <hr>
   <h3>🎥 Видеоэкскурсия по залам</h3>
-  <video controls autoplay muted loop >
-    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+  <video controls autoplay muted loop width="850" height="480">
+    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" >
     Ваш браузер не поддерживает видео.
   </video>
 

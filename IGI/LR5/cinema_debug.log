@@ -1544,3 +1544,23 @@ Watching for file changes with StatReloader
 "GET /about/ HTTP/1.1" 200 9289
 "GET /contacts/ HTTP/1.1" 200 7709
 "GET /contacts/ HTTP/1.1" 200 7709
+Watching for file changes with StatReloader
+ПОЛЬЗОВАТЕЛЬ: kate | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 40402
+ПОЛЬЗОВАТЕЛЬ: kate | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 40402
+"GET /about/ HTTP/1.1" 200 10084
+"GET /media/logo/x-nlgSWxHi1SX64u2wu6N_se0WmHyE_g1fVG6w.png HTTP/1.1" 200 396778
+"GET /about/ HTTP/1.1" 200 10096
+"GET /media/logo/x-nlgSWxHi1SX64u2wu6N_se0WmHyE.png HTTP/1.1" 200 396778
+"GET /about/ HTTP/1.1" 200 10109
+"GET /contacts/ HTTP/1.1" 200 7768
+"GET /media/staff/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA_%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0_2026-05-10_213325.png HTTP/1.1" 200 18096
+"GET /media/staff/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA_%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0_2026-05-10_213621.png HTTP/1.1" 200 21592
+"GET /media/staff/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA_%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0_2026-05-10_213828.png HTTP/1.1" 200 20044
+ПОЛЬЗОВАТЕЛЬ: kate | ВЫЗВАЛ ФУНКЦИЮ: movie_list
+"GET / HTTP/1.1" 200 40402
+"GET /about/ HTTP/1.1" 200 10482
+"GET /media/logo/x-nlgSWxHi1SX64u2wu6N_se0WmHyE_g1fVG6w.png HTTP/1.1" 304 0
+"GET /about/ HTTP/1.1" 200 10479
+"GET /media/logo/x-nlgSWxHi1SX64u2wu6N_se0WmHyE.png HTTP/1.1" 304 0
